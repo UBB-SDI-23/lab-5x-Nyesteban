@@ -38,6 +38,8 @@ app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowe
 //http://lab-1-Nyesteban-dev.eba-x82sux6s.eu-north-1.elasticbeanstalk.com/ - terminated
 //http://storeapp-nyesteban-dev.eba-zr8uidpm.eu-north-1.elasticbeanstalk.com/
 
+//http://lab-5x-nyesteban-dev.eba-wamd3rwg.eu-north-1.elasticbeanstalk.com/
+
 /*
 using (var scope = app.Services.CreateScope())
 {
