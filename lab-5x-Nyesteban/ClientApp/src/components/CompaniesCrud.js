@@ -1,5 +1,5 @@
 ﻿import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 function CompaniesCrud() {
     const [id, setId] = useState("");
@@ -10,6 +10,41 @@ function CompaniesCrud() {
     const [companyRating, setRating] = useState("");
     const [companies, setCompanies] = useState([]);
     const [companiesGames, setCompaniesGames] = useState([]);
+
+    const useSortableData = (items, config = null) => {
+        const [sortConfig, setSortConfig] = useState(config);
+
+        const sortedItems = useMemo(() => {
+            let sortableItems = [...items];
+            if (sortConfig !== null) {
+                sortableItems.sort((a, b) => {
+                    if (a[sortConfig.key] < b[sortConfig.key]) {
+                        return sortConfig.direction === 'ascending' ? -1 : 1;
+                    }
+                    if (a[sortConfig.key] > b[sortConfig.key]) {
+                        return sortConfig.direction === 'ascending' ? 1 : -1;
+                    }
+                    return 0;
+                });
+            }
+            return sortableItems;
+        }, [items, sortConfig]);
+
+        const requestSort = (key) => {
+            let direction = 'ascending';
+            if (
+                sortConfig &&
+                sortConfig.key === key &&
+                sortConfig.direction === 'ascending'
+            ) {
+                direction = 'descending';
+            }
+            setSortConfig({ key, direction });
+        };
+
+        return { items: sortedItems, requestSort, sortConfig };
+    };
+
     useEffect(() => {
         (async () => await Load())();
     }, []);
@@ -98,6 +133,14 @@ function CompaniesCrud() {
             alert(err);
         }
     }
+
+    const { items, requestSort, sortConfig } = useSortableData(companies);
+    const getClassNamesFor = (name) => {
+        if (!sortConfig) {
+            return;
+        }
+        return sortConfig.key === name ? sortConfig.direction : undefined;
+    };
 
     return (
         <div>
@@ -191,17 +234,65 @@ function CompaniesCrud() {
             <table class="table table-dark" align="center">
                 <thead>
                     <tr>
-                        <th scope="col">Company Id</th>
-                        <th scope="col">Company Name</th>
-                        <th scope="col">Company Description</th>
-                        <th scope="col">Company Revenue</th>
-                        <th scope="col">Company Establishment Year</th>
-                        <th scope="col">Company Rating</th>
+                        <th scope="col">
+                            <button
+                                type="button"
+                                onClick={() => requestSort('id')}
+                                className={getClassNamesFor('id')}
+                            >
+                                Company Id
+                            </button>
+                        </th>
+                        <th scope="col">
+                            <button
+                            type="button"
+                            onClick={() => requestSort('companyName')}
+                            className={getClassNamesFor('companyName')}
+                        >
+                            Company Name
+                        </button>
+                        </th>
+                        <th scope="col">
+                            <button
+                                type="button"
+                                onClick={() => requestSort('companyDescription')}
+                                className={getClassNamesFor('companyDescription')}
+                            >
+                                Company Description
+                            </button>
+                        </th>
+                        <th scope="col">
+                            <button
+                                type="button"
+                                onClick={() => requestSort('companyRevenue')}
+                                className={getClassNamesFor('companyRevenue')}
+                            >
+                                Company Revenue
+                            </button>
+                        </th>
+                        <th scope="col">
+                            <button
+                                type="button"
+                                onClick={() => requestSort('companyEstablishmentYear')}
+                                className={getClassNamesFor('companyEstablishmentYear')}
+                            >
+                                Company Establishment Year
+                            </button>
+                        </th>
+                        <th scope="col">
+                            <button
+                                type="button"
+                                onClick={() => requestSort('companyRating')}
+                                className={getClassNamesFor('companyRating')}
+                            >
+                                Company Rating
+                            </button>
+                        </th>
 
                         <th scope="col">Option</th>
                     </tr>
                 </thead>
-                {companies.map(function fn(company) {
+                {items.map(function fn(company) {
                     return (
                         <tbody>
                             <tr>
