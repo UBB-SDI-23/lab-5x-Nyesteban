@@ -2,14 +2,15 @@
 
 #nullable disable
 
-namespace lab_1_Nyesteban.Migrations
+namespace lab_5x_Nyesteban.Migrations
 {
     /// <inheritdoc />
-    public partial class ManyToMany : Migration
+    public partial class initial_postgres : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
         }
 
         /// <inheritdoc />

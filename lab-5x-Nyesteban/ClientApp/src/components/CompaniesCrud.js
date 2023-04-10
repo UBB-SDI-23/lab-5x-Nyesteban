@@ -50,10 +50,10 @@ function CompaniesCrud() {
     }, []);
     async function Load() {
 
-        const result = await axios.get("http://lab-5x-nyesteban-dev.eba-wamd3rwg.eu-north-1.elasticbeanstalk.com/api/Companies");
+        const result = await axios.get("/api/Companies");
         setCompanies(result.data);
         console.log(result.data);
-        const resultGames = await axios.get("http://lab-5x-nyesteban-dev.eba-wamd3rwg.eu-north-1.elasticbeanstalk.com/api/Companies/GameRating");
+        const resultGames = await axios.get("/api/Companies/GameRating");
         setCompaniesGames(resultGames.data);
         console.log(resultGames.data);
     }
@@ -61,7 +61,7 @@ function CompaniesCrud() {
 
         event.preventDefault();
         try {
-            await axios.post("http://lab-5x-nyesteban-dev.eba-wamd3rwg.eu-north-1.elasticbeanstalk.com/api/Companies", {
+            await axios.post("/api/Companies", {
 
                 CompanyName: companyName,
                 CompanyDescription: companyDescription,
@@ -94,7 +94,7 @@ function CompaniesCrud() {
     }
 
     async function DeleteCompany(id) {
-        await axios.delete("http://lab-5x-nyesteban-dev.eba-wamd3rwg.eu-north-1.elasticbeanstalk.com/api/Companies/" + id);
+        await axios.delete("/api/Companies/" + id);
         alert("Company deleted Successfully");
         setId("");
         setName("");
@@ -109,7 +109,7 @@ function CompaniesCrud() {
         event.preventDefault();
         try {
 
-            await axios.put("http://lab-5x-nyesteban-dev.eba-wamd3rwg.eu-north-1.elasticbeanstalk.com/api/Companies/" + companies.find((u) => u.id === id).id || id,
+            await axios.put("/api/Companies/" + companies.find((u) => u.id === id).id || id,
                 {
                     ID: id,
                     CompanyName: companyName,
