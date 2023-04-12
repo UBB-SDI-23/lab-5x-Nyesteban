@@ -22,7 +22,7 @@ namespace lab_1_Nyesteban.Repositories
             {
                 throw new Exception($"Entity set 'StoreContext.Companies'  is null.");
             }
-            var result = _context.Set<Company>().ToList() as IEnumerable<Company>;
+            var result = _context.Set<Company>().Take(100).ToList() as IEnumerable<Company>;
             return Task.FromResult(result);
         }
 

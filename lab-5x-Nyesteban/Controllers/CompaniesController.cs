@@ -187,7 +187,7 @@ namespace lab_1_Nyesteban.Controllers
                     CompanyRating = c.CompanyRating,
                     AverageGameRating = c.Games?.Select(g => g.GameRating).DefaultIfEmpty().Average() ?? 0
                 });
-            return result;
+            return result.Skip(Math.Max(0, result.Count() - 50));
         }
 
         [HttpGet("AppCount")]
