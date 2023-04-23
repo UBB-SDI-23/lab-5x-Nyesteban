@@ -13,6 +13,8 @@
 
         public decimal AppPrice { get; set; }
 
+        public int AppRating { get; set; }
+
         public virtual ICollection<DevelopmentDetail>? DevelopmentDetails { get; set; }
     }
 }
