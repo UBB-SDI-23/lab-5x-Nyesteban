@@ -371,7 +371,7 @@ function GamesCrud() {
             <Pagination
                 className="pagination-bar"
                 currentPage={currentPage}
-                totalCount={gamesCount}
+                totalCount={1000000}
                 pageSize={take}
                 onPageChange={page => setCurrentPage(page)}
             />

@@ -415,7 +415,7 @@ function AppsCrud() {
             <Pagination
                 className="pagination-bar"
                 currentPage={currentPage}
-                totalCount={appsCount}
+                totalCount={1000000}
                 pageSize={take}
                 onPageChange={page => setCurrentPage(page)}
             />

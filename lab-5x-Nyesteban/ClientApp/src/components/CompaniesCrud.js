@@ -436,7 +436,7 @@ function CompaniesCrud() {
             <Pagination
                 className="pagination-bar"
                 currentPage={currentPage}
-                totalCount={companiesCount}
+                totalCount={1000000}
                 pageSize={take}
                 onPageChange={page => setCurrentPage(page)}
             />
