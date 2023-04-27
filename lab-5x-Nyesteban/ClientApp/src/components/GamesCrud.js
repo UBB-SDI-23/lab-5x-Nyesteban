@@ -20,7 +20,7 @@ function GamesCrud() {
     const [gamesCount, setCount] = useState(0);
 
     const totalPages = async () => {
-        await axios.get("/api/Games").data.length
+        await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/Games").data.length
     };
 
     const handleSelect = (e) => {
@@ -79,7 +79,7 @@ function GamesCrud() {
 
     async function Load() {
 
-        const result = await axios.get("/api/Games/paginated/" + skip + "/" + take);
+        const result = await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/Games/paginated/" + skip + "/" + take);
         setGames(result.data);
         console.log(result.data);
         const resultCount = await axios.get("/api/Games");
@@ -136,7 +136,7 @@ function GamesCrud() {
     }
 
     async function DeleteGame(id) {
-        await axios.delete("/api/Games/" + id);
+        await axios.delete("https://lab-5x-Nyesteban.chickenkiller.com/api/Games/" + id);
         alert("Game deleted Successfully");
         setId("");
         setName("");
@@ -151,7 +151,7 @@ function GamesCrud() {
         event.preventDefault();
         try {
 
-            await axios.put("/api/Games/" + games.find((u) => u.id === id).id || id,
+            await axios.put("https://lab-5x-Nyesteban.chickenkiller.com/api/Games/" + games.find((u) => u.id === id).id || id,
                 {
                     ID: id,
                     GameName: gameName,

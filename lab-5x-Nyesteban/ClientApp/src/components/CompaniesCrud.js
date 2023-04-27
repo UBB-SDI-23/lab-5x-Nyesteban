@@ -104,27 +104,27 @@ function CompaniesCrud() {
 
     async function Load() {
 
-        const result = await axios.get("/api/Companies/paginated/" + skip + "/" + take);
+        const result = await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/Companies/paginated/" + skip + "/" + take);
         setCompanies(result.data);
         console.log(result.data);
-        const resultCount = await axios.get("/api/Companies");
+        const resultCount = await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/Companies");
         setCount(resultCount.data.length);
-        const resultGames = await axios.get("/api/Companies/paginatedGameRating/" + skipGames + "/" + takeGames);
+        const resultGames = await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/Companies/paginatedGameRating/" + skipGames + "/" + takeGames);
         setCompaniesGames(resultGames.data);
         console.log(resultGames.data);
-        const resultApps = await axios.get("/api/Companies/AppCount");
+        const resultApps = await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/Companies/AppCount");
         setCompaniesApps(resultApps.data);
         console.log(resultApps.data);
     }
     async function LoadMainOnly() {
 
-        const result = await axios.get("/api/Companies/paginated/" + skip + "/" + take);
+        const result = await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/Companies/paginated/" + skip + "/" + take);
         setCompanies(result.data);
         console.log(result.data);
     }
     async function LoadGamesOnly() {
 
-        const resultGames = await axios.get("/api/Companies/paginatedGameRating/" + skipGames + "/" + takeGames);
+        const resultGames = await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/Companies/paginatedGameRating/" + skipGames + "/" + takeGames);
         setCompaniesGames(resultGames.data);
         console.log(resultGames.data);
     }
@@ -136,7 +136,7 @@ function CompaniesCrud() {
             return;
         }
         try {
-            await axios.post("/api/Companies", {
+            await axios.post("https://lab-5x-Nyesteban.chickenkiller.com/api/Companies", {
 
                 CompanyName: companyName,
                 CompanyDescription: companyDescription,
@@ -163,7 +163,7 @@ function CompaniesCrud() {
 
         event.preventDefault();
         try {
-            await axios.put("/api/Companies/" + companyIDknown + "/game/" + gameID);
+            await axios.put("https://lab-5x-Nyesteban.chickenkiller.com/api/Companies/" + companyIDknown + "/game/" + gameID);
             alert("Assignment Successful");
             setIDknown(0);
             setGameID(0);
@@ -185,7 +185,7 @@ function CompaniesCrud() {
     }
 
     async function DeleteCompany(id) {
-        await axios.delete("/api/Companies/" + id);
+        await axios.delete("https://lab-5x-Nyesteban.chickenkiller.com/api/Companies/" + id);
         alert("Company deleted Successfully");
         setId("");
         setName("");
@@ -200,7 +200,7 @@ function CompaniesCrud() {
         event.preventDefault();
         try {
 
-            await axios.put("/api/Companies/" + companies.find((u) => u.id === id).id || id,
+            await axios.put("https://lab-5x-Nyesteban.chickenkiller.com/api/Companies/" + companies.find((u) => u.id === id).id || id,
                 {
                     ID: id,
                     CompanyName: companyName,

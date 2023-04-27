@@ -86,17 +86,17 @@ function AppsCrud() {
 
     async function Load() {
 
-        const result = await axios.get("/api/Apps/paginated/" + skip + "/" + take);
+        const result = await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/Apps/paginated/" + skip + "/" + take);
         setApps(result.data);
         console.log(result.data);
-        const resultCount = await axios.get("/api/Apps");
+        const resultCount = await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/Apps");
         setCount(resultCount.data.length);
     }
 
     async function LoadFilter() {
         if (isNaN(+appFilter))
             return;
-        const result = await axios.get("/api/Apps/" + appFilter +"/filter");
+        const result = await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/Apps/" + appFilter +"/filter");
         setFilteredApps(result.data);
         console.log(result.data);
     }
@@ -113,7 +113,7 @@ function AppsCrud() {
             return;
         }
         try {
-            await axios.post("/api/Apps", {
+            await axios.post("https://lab-5x-Nyesteban.chickenkiller.com/api/Apps", {
 
                 AppName: appName,
                 AppDescription: appDescription,
@@ -150,7 +150,7 @@ function AppsCrud() {
     }
 
     async function DeleteApp(id) {
-        await axios.delete("/api/Apps/" + id);
+        await axios.delete("https://lab-5x-Nyesteban.chickenkiller.com/api/Apps/" + id);
         alert("App deleted Successfully");
         setId("");
         setName("");
@@ -166,7 +166,7 @@ function AppsCrud() {
         event.preventDefault();
         try {
 
-            await axios.put("/api/Apps/" + apps.find((u) => u.id === id).id || id,
+            await axios.put("https://lab-5x-Nyesteban.chickenkiller.com/api/Apps/" + apps.find((u) => u.id === id).id || id,
                 {
                     ID: id,
                     AppName: appName,

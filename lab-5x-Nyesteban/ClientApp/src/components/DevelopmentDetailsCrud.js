@@ -18,7 +18,7 @@ function DevelopmentDetailsCrud() {
     const [ddCount, setCount] = useState(0);
 
     const totalPages = async () => {
-        await axios.get("/api/DevelopmentDetails").data.length
+        await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/DevelopmentDetails").data.length
     };
 
     const handleSelect = (e) => {
@@ -77,10 +77,10 @@ function DevelopmentDetailsCrud() {
 
     async function Load() {
 
-        const result = await axios.get("/api/DevelopmentDetails/paginated/" + skip + "/" + take);
+        const result = await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/DevelopmentDetails/paginated/" + skip + "/" + take);
         setDevelopmentDetails(result.data);
         console.log(result.data);
-        const resultCount = await axios.get("/api/DevelopmentDetails");
+        const resultCount = await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/DevelopmentDetails");
         setCount(resultCount.data.length);
     }
 
@@ -88,7 +88,7 @@ function DevelopmentDetailsCrud() {
 
         event.preventDefault();
         try {
-            await axios.post("/api/DevelopmentDetails", {
+            await axios.post("https://lab-5x-Nyesteban.chickenkiller.com/api/DevelopmentDetails", {
 
                 CompanyId: companyId,
                 AppId: appId,
@@ -116,7 +116,7 @@ function DevelopmentDetailsCrud() {
     }
 
     async function DeleteDevelopmentDetail(companyId, appId) {
-        await axios.delete("/api/DevelopmentDetails/" + companyId + "/" + appId);
+        await axios.delete("https://lab-5x-Nyesteban.chickenkiller.com/api/DevelopmentDetails/" + companyId + "/" + appId);
         alert("DevelopmentDetail deleted Successfully");
         setCompanyId("");
         setAppId("");
@@ -129,7 +129,7 @@ function DevelopmentDetailsCrud() {
         event.preventDefault();
         try {
 
-            await axios.put("/api/DevelopmentDetails/" + companyId + "/" + appId,
+            await axios.put("https://lab-5x-Nyesteban.chickenkiller.com/api/DevelopmentDetails/" + companyId + "/" + appId,
                 {
                     CompanyId: companyId,
                     AppId: appId,
