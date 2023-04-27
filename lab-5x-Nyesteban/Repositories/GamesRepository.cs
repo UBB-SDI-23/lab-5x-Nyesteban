@@ -41,6 +41,12 @@ namespace lab_1_Nyesteban.Repositories
             return game;
         }
 
+        public async Task<IEnumerable<Game>> GetGamesPaginated(int skip, int take)
+        {
+            var result = await _context.Games.OrderBy(g => g.ID).Skip(skip).Take(take).ToListAsync() as IEnumerable<Game>;
+            return result;
+        }
+
         public async Task<Game> PutGame(int id, Game game)
         {
             if (id != game.ID)

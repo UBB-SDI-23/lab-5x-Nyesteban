@@ -57,6 +57,14 @@ namespace lab_1_Nyesteban.Controllers
             }
         }
 
+        [HttpGet("paginated/{skip}/{take}")]
+        public async Task<ActionResult<IEnumerable<Company>>> GetCompaniesPaginated([FromRoute] uint skip,
+        [FromRoute] uint take)
+        {
+            var result = await _repo.GetCompaniesPaginated((int)skip, (int)take);
+            return Ok(result);
+        }
+
         // PUT: api/Companies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -190,6 +198,24 @@ namespace lab_1_Nyesteban.Controllers
             return result.Skip(Math.Max(0, result.Count() - 50));
         }
 
+        [HttpGet("paginatedGameRating/{skip}/{take}")]
+        public async Task<IEnumerable<CompanyGamesDTO>> GetCompaniesOrderedByAverageGameRatingPaginated([FromRoute] int skip,
+        [FromRoute] int take)
+        {
+            var result = (await _repo.GetCompaniesAllData())
+                .OrderBy(c => c.Games?.Select(g => g.GameRating).DefaultIfEmpty().Average())
+                .Select(c => new CompanyGamesDTO
+                {
+                    CompanyName = c.CompanyName,
+                    CompanyDescription = c.CompanyDescription,
+                    CompanyRevenue = c.CompanyRevenue,
+                    CompanyEstablishmentYear = c.CompanyEstablishmentYear,
+                    CompanyRating = c.CompanyRating,
+                    AverageGameRating = c.Games?.Select(g => g.GameRating).DefaultIfEmpty().Average() ?? 0
+                });
+            return result.Skip(skip).Take(take);
+        }
+
         [HttpGet("AppCount")]
         public async Task<IEnumerable<CompanyAppsDTO>> GetCompaniesOrderedByAppCount()
         {
@@ -204,7 +230,7 @@ namespace lab_1_Nyesteban.Controllers
                     CompanyRating = c.CompanyRating,
                     CompanyAppCount = c.DevelopmentDetails?.Where(dd => dd.CompanyId == c.ID).Count() ?? 0
                 });
-            return result;
+            return result.Skip(Math.Max(0, result.Count() - 50));
         }
     }
 }

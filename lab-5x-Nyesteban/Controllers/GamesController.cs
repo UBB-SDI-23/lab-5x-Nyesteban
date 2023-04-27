@@ -51,6 +51,14 @@ namespace lab_1_Nyesteban.Controllers
             }
         }
 
+        [HttpGet("paginated/{skip}/{take}")]
+        public async Task<ActionResult<IEnumerable<Game>>> GetGamesPaginated([FromRoute] uint skip,
+        [FromRoute] uint take)
+        {
+            var result = await _repo.GetGamesPaginated((int)skip, (int)take);
+            return Ok(result);
+        }
+
         // PUT: api/Games/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

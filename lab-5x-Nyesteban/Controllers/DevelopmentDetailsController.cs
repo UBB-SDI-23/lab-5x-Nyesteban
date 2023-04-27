@@ -53,9 +53,18 @@ namespace lab_1_Nyesteban.Controllers
             }
         }
 
-            // PUT: api/DevelopmentDetails/5
-            // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-            [HttpPut("{id1}/{id2}")]
+        [HttpGet("paginated/{skip}/{take}")]
+        public async Task<ActionResult<IEnumerable<Company>>> GetDevelopmentDetailsPaginated([FromRoute] uint skip,
+        [FromRoute] uint take)
+        {
+            var result = await _repo.GetDevelopmentDetailsPaginated((int)skip, (int)take);
+            return Ok(result);
+        }
+
+
+        // PUT: api/DevelopmentDetails/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id1}/{id2}")]
             public async Task<IActionResult> PutDevelopmentDetail(int id1, int id2, DevelopmentDetail developmentDetail)
             {
                 try

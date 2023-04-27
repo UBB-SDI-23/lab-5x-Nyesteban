@@ -1,0 +1,81 @@
+ <table class="table table-dark" align="center">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                                Company Id
+                        </th>
+                        <th scope="col">
+                                App Id
+                        </th>
+                        <th scope="col">
+                                Development Costs
+                        </th>
+                        <th scope="col">
+                            Development Time In Hours
+                        </th>
+
+                        <th scope="col">Option</th>
+                    </tr>
+                </thead>
+                {items.map(function fn(developmentDetail) {
+                    return (
+                        <tbody>
+                            <tr>
+                                <th scope="row">{developmentDetail.companyId} </th>
+                                <td>{developmentDetail.appId}</td>
+                                <td>{developmentDetail.developmentCosts}</td>
+                                <td>{developmentDetail.developmentTimeInHours}</td>
+
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="btn btn-warning"
+                                        onClick={() => editDevelopmentDetail(developmentDetail)}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger"
+                                        onClick={() => DeleteDevelopmentDetail(developmentDetail.companyId, developmentDetail.appId)}
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    );
+                })}
+            </table>
+
+            <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={ddCount}
+                pageSize={take}
+                onPageChange={page => setCurrentPage(page)}
+            />
+
+            <br></br>
+
+            <DropdownButton
+
+                alignRight
+
+                title="Select no of pages"
+
+                id="dropdown-menu-align-right"
+
+                onSelect={handleSelect}
+
+            >
+
+                <Dropdown.Item eventKey={12}>12</Dropdown.Item>
+
+                <Dropdown.Item eventKey={20}>20</Dropdown.Item>
+
+                <Dropdown.Item eventKey={40}>40</Dropdown.Item>
+
+            </DropdownButton>
+
+            <br></br>

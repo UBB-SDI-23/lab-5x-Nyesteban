@@ -9,6 +9,8 @@ namespace lab_1_Nyesteban.Repositories.Interfaces
 
         public Task<ActionResult<IEnumerable<App>>> GetAppsWithSizeLargerThan(int appSize);
 
+        public Task<IEnumerable<App>> GetAppsPaginated(int skip, int take);
+
         public Task RemoveApp(int id);
 
         public Task<App> UpdateApp(int id, App app);

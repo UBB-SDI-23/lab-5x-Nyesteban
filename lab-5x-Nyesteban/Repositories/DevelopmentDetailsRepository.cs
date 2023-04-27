@@ -41,6 +41,12 @@ namespace lab_1_Nyesteban.Repositories
             return developmentDetail;
         }
 
+        public async Task<IEnumerable<App>> GetDevelopmentDetailsPaginated(int skip, int take)
+        {
+            var result = await _context.DevelopmentDetails.OrderBy(d => d.CompanyId).Skip(skip).Take(take).ToListAsync() as IEnumerable<App>;
+            return result;
+        }
+
         public async Task<DevelopmentDetail> PutDevelopmentDetail(int id1, int id2, DevelopmentDetail developmentDetail)
         {
             if (id1 != developmentDetail.CompanyId || id2 != developmentDetail.AppId)

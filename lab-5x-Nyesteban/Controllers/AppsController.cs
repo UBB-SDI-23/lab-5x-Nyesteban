@@ -52,6 +52,15 @@ namespace lab_1_Nyesteban.Controllers
             }
         }
 
+        [HttpGet("paginated/{skip}/{take}")]
+        public async Task<ActionResult<IEnumerable<App>>> GetAppsPaginated([FromRoute] uint skip,
+        [FromRoute] uint take)
+        {
+            var result = await _repo.GetAppsPaginated((int)skip, (int)take);
+            return Ok(result);
+        }
+
+
         [HttpGet("{appSize}/filter")]
         public async Task<ActionResult<IEnumerable<App>>> GetAppsWithSizeLargerThan(int appSize)
         {

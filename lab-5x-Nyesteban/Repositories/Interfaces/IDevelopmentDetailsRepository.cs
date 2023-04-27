@@ -7,6 +7,7 @@ namespace lab_1_Nyesteban.Repositories.Interfaces
     {
         public Task<IEnumerable<DevelopmentDetail>> GetDevelopmentDetails();
         public Task<ActionResult<DevelopmentDetail>> GetDevelopmentDetail(int id1, int id2);
+        public Task<IEnumerable<App>> GetDevelopmentDetailsPaginated(int skip, int take);
         public Task<DevelopmentDetail> PutDevelopmentDetail(int id1, int id2, DevelopmentDetail developmentDetail);
         public Task<ActionResult<DevelopmentDetail>> PostDevelopmentDetail(DevelopmentDetail developmentDetail);
         public Task<IEnumerable<App>> GetAppsByCompanyId(int companyId);

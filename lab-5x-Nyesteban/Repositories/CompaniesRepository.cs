@@ -22,7 +22,7 @@ namespace lab_1_Nyesteban.Repositories
             {
                 throw new Exception($"Entity set 'StoreContext.Companies'  is null.");
             }
-            var result = _context.Set<Company>().Take(100).ToList() as IEnumerable<Company>;
+            var result = _context.Set<Company>().ToList() as IEnumerable<Company>;
             return Task.FromResult(result);
         }
 
@@ -41,6 +41,12 @@ namespace lab_1_Nyesteban.Repositories
             }
 
             return company;
+        }
+
+        public async Task<IEnumerable<Company>> GetCompaniesPaginated(int skip, int take)
+        {
+            var result = await _context.Companies.Include(a => a.Games).OrderBy(c => c.ID).Skip(skip).Take(take).ToListAsync() as IEnumerable<Company>;
+            return result;
         }
 
         public Task<IEnumerable<Company>> GetCompaniesAllData()

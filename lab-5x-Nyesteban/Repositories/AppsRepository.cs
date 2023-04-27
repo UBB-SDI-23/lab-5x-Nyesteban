@@ -40,6 +40,12 @@ namespace lab_1_Nyesteban.Repositories
             return result;
         }
 
+        public async Task<IEnumerable<App>> GetAppsPaginated(int skip, int take)
+        {
+            var result = await _context.Apps.Include(a => a.DevelopmentDetails).OrderBy(a => a.ID).Skip(skip).Take(take).ToListAsync() as IEnumerable<App>;
+            return result;
+        }
+
         public async Task<ActionResult<IEnumerable<App>>> GetAppsWithSizeLargerThan(int appSize)
         {
             if (_context.Apps == null)
@@ -48,7 +54,7 @@ namespace lab_1_Nyesteban.Repositories
             }
             var apps = from a in _context.Apps select a;
             apps = apps.Where(a => a.AppSize > appSize);
-            return await apps.AsNoTracking().ToListAsync();
+            return await apps.AsNoTracking().Take(50).ToListAsync();
         }
 
         public async Task AddApp(App app)
