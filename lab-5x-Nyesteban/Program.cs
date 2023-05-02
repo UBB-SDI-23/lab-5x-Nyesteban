@@ -35,8 +35,9 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed(origin => true).AllowCredentials());
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed(origin => true).AllowCredentials());
 
 
 /*

@@ -1,4 +1,5 @@
 ﻿using lab_1_Nyesteban.Models;
+using lab_5x_Nyesteban.Models;
 using Microsoft.EntityFrameworkCore;
 namespace lab_1_Nyesteban.DAL
 {
@@ -18,6 +19,9 @@ namespace lab_1_Nyesteban.DAL
         public DbSet<Company> Companies { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<DevelopmentDetail> DevelopmentDetails { get; set; }
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<RegistrationCode> RegistrationCodes { get; set; }
 
         public Company Company
         {
@@ -44,6 +48,22 @@ namespace lab_1_Nyesteban.DAL
         }
 
         public App App
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public User User
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public RegistrationCode RegistrationCode
         {
             get => default;
             set
