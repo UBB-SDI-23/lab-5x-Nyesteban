@@ -6,6 +6,7 @@ import Pagination from './Pagination';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Link } from 'react-router-dom';
+import { showCount } from './Profile';
 
 function AppsCrud() {
     const [id, setId] = useState("");
@@ -17,7 +18,7 @@ function AppsCrud() {
     const [appRating, setRating] = useState("");
     const [apps, setApps] = useState([]);
     const [skip, setSkip] = useState(0);
-    const [take, setTake] = useState(12);
+    const [take, setTake] = useState(showCount);
     const [currentPage, setCurrentPage] = useState(1);
     const [appsCount, setCount] = useState(0);
     const [appFilter, setFilter] = useState("");

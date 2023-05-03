@@ -6,6 +6,7 @@ import Pagination from './Pagination';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Link } from 'react-router-dom';
+import { showCount } from './Profile';
 
 function CompaniesCrud() {
     const [id, setId] = useState("");
@@ -18,7 +19,7 @@ function CompaniesCrud() {
     const [companiesGames, setCompaniesGames] = useState([]);
     const [companiesApps, setCompaniesApps] = useState([]);
     const [skip, setSkip] = useState(0);
-    const [take, setTake] = useState(12);
+    const [take, setTake] = useState(showCount);
     const [skipGames, setSkipGames] = useState(0);
     const takeGames = 5;
     const [companiesMatch, setMatch] = useState([]);
