@@ -6,6 +6,7 @@ import Pagination from './Pagination';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Link } from 'react-router-dom';
+import { showCount } from './Profile';
 
 function GamesCrud() {
     const [id, setId] = useState("");
@@ -16,7 +17,7 @@ function GamesCrud() {
     const [gameRating, setRating] = useState("");
     const [games, setGames] = useState([]);
     const [skip, setSkip] = useState(0);
-    const [take, setTake] = useState(12);
+    const [take, setTake] = useState(showCount);
     const [currentPage, setCurrentPage] = useState(1);
     const [gamesCount, setCount] = useState(0);
 

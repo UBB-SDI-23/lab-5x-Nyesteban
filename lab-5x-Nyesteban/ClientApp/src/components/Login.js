@@ -3,6 +3,8 @@ import { useEffect, useState, useMemo } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+let currentlyLoggedIn = "";
+
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -20,6 +22,8 @@ function Login() {
             setUsername("");
             setPassword("");
             toast("Login succesful!");
+            currentlyLoggedIn = username;
+            
         } catch (err) {
             toast(err.message);
             //alert(err);
@@ -71,3 +75,5 @@ function Login() {
 }
 
 export default Login;
+
+export { currentlyLoggedIn };

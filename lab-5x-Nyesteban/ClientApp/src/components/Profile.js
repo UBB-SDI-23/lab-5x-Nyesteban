@@ -3,6 +3,9 @@ import { useEffect, useState, useMemo } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router";
+import { currentlyLoggedIn } from './Login';
+
+let showCount = 12;
 
 function Profile() {
     const [username, setUsername] = useState("");
@@ -183,6 +186,19 @@ function Profile() {
                             }}
                         />
                     </div>
+                    <div class="form-group">
+                        <label>Show Count</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            onChange={(event) => {
+                                if (currentlyLoggedIn == username)
+                                    showCount = event.target.value;
+                                else
+                                    toast("I'm afraid I can't let you do that.");
+                            }}
+                        />
+                    </div>
                 </form>
             </div>
             <br></br>
@@ -194,3 +210,5 @@ function Profile() {
 }
 
 export default Profile;
+
+export { showCount };
