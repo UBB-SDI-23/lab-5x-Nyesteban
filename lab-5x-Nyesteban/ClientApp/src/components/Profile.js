@@ -27,12 +27,12 @@ function Profile() {
 
     async function getData() {
 
-        const result = await axios.get("/api/Auth/getuser/" + data.state.info);
-        const counter = await axios.get("/api/Auth/getuser/" + data.state.info + "/count");
-        const counterapp = await axios.get("/api/Auth/getuser/" + data.state.info + "/appcount");
-        const countercompany = await axios.get("/api/Auth/getuser/" + data.state.info + "/companycount");
-        const counterdev = await axios.get("/api/Auth/getuser/" + data.state.info + "/devcount");
-        const countergame = await axios.get("/api/Auth/getuser/" + data.state.info + "/gamecount");
+        const result = await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuser/" + data.state.info);
+        const counter = await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuser/" + data.state.info + "/count");
+        const counterapp = await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuser/" + data.state.info + "/appcount");
+        const countercompany = await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuser/" + data.state.info + "/companycount");
+        const counterdev = await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuser/" + data.state.info + "/devcount");
+        const countergame = await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuser/" + data.state.info + "/gamecount");
         setUsername(result.data.username);
         setBio(result.data.bio);
         setLocation(result.data.location);

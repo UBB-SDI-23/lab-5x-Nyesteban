@@ -45,7 +45,7 @@ function Register() {
             return;
         }
         try {
-            await axios.post("/api/Auth/register", {
+            await axios.post("https://nyesteban.twilightparadox.com/api/Auth/register", {
 
                 Username: username,
                 Password: password,
@@ -94,7 +94,7 @@ function Register() {
             return;
         }
         try {
-            await axios.post("/api/Auth/register/confirm/" + code, {
+            await axios.post("https://nyesteban.twilightparadox.com/api/Auth/register/confirm/" + code, {
 
                 Username: username,
                 Password: password,

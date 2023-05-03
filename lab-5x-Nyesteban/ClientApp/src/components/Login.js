@@ -11,7 +11,7 @@ function Login() {
 
         event.preventDefault();
         try {
-            await axios.post("/api/Auth/login", {
+            await axios.post("https://nyesteban.twilightparadox.com/api/Auth/login", {
 
                 Username: username,
                 Password: password

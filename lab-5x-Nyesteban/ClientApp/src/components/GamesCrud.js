@@ -21,7 +21,7 @@ function GamesCrud() {
     const [gamesCount, setCount] = useState(0);
 
     const totalPages = async () => {
-        await axios.get("/api/Games").data.length
+        await axios.get("https://nyesteban.twilightparadox.com/api/Games").data.length
     };
 
     const handleSelect = (e) => {
@@ -80,10 +80,10 @@ function GamesCrud() {
 
     async function Load() {
 
-        const result = await axios.get("/api/Games/paginated/" + skip + "/" + take);
+        const result = await axios.get("https://nyesteban.twilightparadox.com/api/Games/paginated/" + skip + "/" + take);
         setGames(result.data);
         console.log(result.data);
-        const resultCount = await axios.get("/api/Games");
+        const resultCount = await axios.get("https://nyesteban.twilightparadox.com/api/Games");
         setCount(resultCount.data.length);
     }
 
@@ -103,7 +103,7 @@ function GamesCrud() {
             return;
         }
         try {
-            await axios.post("/api/Games", {
+            await axios.post("https://nyesteban.twilightparadox.com/api/Games", {
 
                 GameName: gameName,
                 GameDescription: gameDescription,
@@ -137,7 +137,7 @@ function GamesCrud() {
     }
 
     async function DeleteGame(id) {
-        await axios.delete("/api/Games/" + id);
+        await axios.delete("https://nyesteban.twilightparadox.com/api/Games/" + id);
         alert("Game deleted Successfully");
         setId("");
         setName("");
@@ -152,7 +152,7 @@ function GamesCrud() {
         event.preventDefault();
         try {
 
-            await axios.put("/api/Games/" + games.find((u) => u.id === id).id || id,
+            await axios.put("https://nyesteban.twilightparadox.com/api/Games/" + games.find((u) => u.id === id).id || id,
                 {
                     ID: id,
                     GameName: gameName,
