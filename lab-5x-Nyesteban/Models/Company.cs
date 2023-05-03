@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using lab_5x_Nyesteban.Models;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Runtime.Serialization;
 
@@ -12,6 +13,8 @@ namespace lab_1_Nyesteban.Models
         public decimal CompanyRevenue { get; set; }
         public int CompanyEstablishmentYear { get; set; }
         public decimal CompanyRating { get; set; }
+        public int UserID { get; set; }
+        public User User { get; set; }
         public virtual ICollection<Game>? Games { get; set; }
         public virtual ICollection<DevelopmentDetail>? DevelopmentDetails { get; set; }
     }

@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Pagination from './Pagination';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { Link } from 'react-router-dom';
 
 function GamesCrud() {
     const [id, setId] = useState("");
@@ -20,7 +21,7 @@ function GamesCrud() {
     const [gamesCount, setCount] = useState(0);
 
     const totalPages = async () => {
-        await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/Games").data.length
+        await axios.get("/api/Games").data.length
     };
 
     const handleSelect = (e) => {
@@ -79,7 +80,7 @@ function GamesCrud() {
 
     async function Load() {
 
-        const result = await axios.get("https://lab-5x-Nyesteban.chickenkiller.com/api/Games/paginated/" + skip + "/" + take);
+        const result = await axios.get("/api/Games/paginated/" + skip + "/" + take);
         setGames(result.data);
         console.log(result.data);
         const resultCount = await axios.get("/api/Games");
@@ -136,7 +137,7 @@ function GamesCrud() {
     }
 
     async function DeleteGame(id) {
-        await axios.delete("https://lab-5x-Nyesteban.chickenkiller.com/api/Games/" + id);
+        await axios.delete("/api/Games/" + id);
         alert("Game deleted Successfully");
         setId("");
         setName("");
@@ -151,7 +152,7 @@ function GamesCrud() {
         event.preventDefault();
         try {
 
-            await axios.put("https://lab-5x-Nyesteban.chickenkiller.com/api/Games/" + games.find((u) => u.id === id).id || id,
+            await axios.put("/api/Games/" + games.find((u) => u.id === id).id || id,
                 {
                     ID: id,
                     GameName: gameName,
@@ -332,6 +333,10 @@ function GamesCrud() {
                             </button>
                         </th>
 
+                        <th scope="col">
+                            User
+                        </th>
+
                         <th scope="col">Option</th>
                     </tr>
                 </thead>
@@ -345,6 +350,7 @@ function GamesCrud() {
                                 <td>{game.gameLength}</td>
                                 <td>{game.gameSize}</td>
                                 <td>{game.gameRating}</td>
+                                <td><Link to="/profile"  state={{info: game.user.id}} className="btn btn-primary">{game.user.username}</Link></td>
 
                                 <td>
                                     <button

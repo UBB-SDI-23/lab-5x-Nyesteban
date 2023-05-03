@@ -12,6 +12,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System;
 using System.Security.Cryptography;
 using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
+using lab_1_Nyesteban.Models;
 
 namespace lab_5x_Nyesteban.Controllers
 {
@@ -64,6 +66,7 @@ namespace lab_5x_Nyesteban.Controllers
             string refreshToken = "";
             RandomNumberGenerator.Create().GetBytes(randomNumber);
             refreshToken = Convert.ToBase64String(randomNumber);
+            refreshToken = refreshToken.Replace("/","");
             var code = refreshToken;
             var time = DateTime.Now;
             var reg = new RegistrationCode();
@@ -118,6 +121,8 @@ namespace lab_5x_Nyesteban.Controllers
             if (request.Website.ToLower().Contains('.') == false)
                 return BadRequest("E-Mail must contain at least one .!");
             User user = new User();
+            int maxid = await _context.Users.MaxAsync(e => e.ID);
+            user.ID = ++maxid;
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
             user.Username = request.Username;
             user.PasswordHash = passwordHash;
@@ -141,6 +146,74 @@ namespace lab_5x_Nyesteban.Controllers
                 return BadRequest("Bad password!");
             string token = CreateToken(user);
             return Ok(token);
+        }
+
+        [HttpGet("getuser/{id}")]
+        public async Task<ActionResult<User>> GetUser(int id)
+        {
+            int total = 0;
+            var user = await _context.Users.SingleOrDefaultAsync(a => a.ID == id);
+            if (user == null)
+                return BadRequest("User not found!");
+            return Ok(user);
+        }
+
+        [HttpGet("getuser/{id}/count")]
+        public async Task<ActionResult<User>> GetUserEntriesCount(int id)
+        {
+            int total = 0;
+            var userapps = await _context.Users.Include(a => a.Apps)/*.Include(a=>a.Games).Include(a => a.Apps).Include(a => a.DevelopmentDetails).Include(a => a.Apps)*/.SingleOrDefaultAsync(a => a.ID == id);
+            if (userapps == null)
+                return BadRequest("User not found!");
+            var usergames = await _context.Users.Include(a => a.Games).SingleOrDefaultAsync(a => a.ID == id);
+            var userdevs = await _context.Users.Include(a => a.DevelopmentDetails).SingleOrDefaultAsync(a => a.ID == id);
+            var usercompanies = await _context.Users.Include(a => a.Companies).SingleOrDefaultAsync(a => a.ID == id);
+            total = userapps.Apps.Count() + usergames.Games.Count() + userdevs.DevelopmentDetails.Count() + usercompanies.Companies.Count();
+            return Ok(total);
+        }
+
+        [HttpGet("getuser/{id}/appcount")]
+        public async Task<ActionResult<User>> GetUserAppsCount(int id)
+        {
+            int total = 0;
+            var userapps = await _context.Users.Include(a => a.Apps)/*.Include(a=>a.Games).Include(a => a.Apps).Include(a => a.DevelopmentDetails).Include(a => a.Apps)*/.SingleOrDefaultAsync(a => a.ID == id);
+            if (userapps == null)
+                return BadRequest("User not found!");
+            total = userapps.Apps.Count();
+            return Ok(total);
+        }
+
+        [HttpGet("getuser/{id}/gamecount")]
+        public async Task<ActionResult<User>> GetUserGamesCount(int id)
+        {
+            int total = 0;
+            var usergames = await _context.Users.Include(a => a.Games).SingleOrDefaultAsync(a => a.ID == id);
+            if (usergames == null)
+                return BadRequest("User not found!");
+            total = usergames.Games.Count();
+            return Ok(total);
+        }
+
+        [HttpGet("getuser/{id}/devcount")]
+        public async Task<ActionResult<User>> GetUserDevCount(int id)
+        {
+            int total = 0;
+            var userdev = await _context.Users.Include(a => a.DevelopmentDetails).SingleOrDefaultAsync(a => a.ID == id);
+            if (userdev == null)
+                return BadRequest("User not found!");
+            total = userdev.DevelopmentDetails.Count();
+            return Ok(total);
+        }
+
+        [HttpGet("getuser/{id}/companycount")]
+        public async Task<ActionResult<User>> GetUserCompaniesCount(int id)
+        {
+            int total = 0;
+            var usercompanies = await _context.Users.Include(a => a.Companies).SingleOrDefaultAsync(a => a.ID == id);
+            if (usercompanies == null)
+                return BadRequest("User not found!");
+            total = usercompanies.Companies.Count();
+            return Ok(total);
         }
 
         private string CreateToken(User user)

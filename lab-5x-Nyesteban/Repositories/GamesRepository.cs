@@ -43,7 +43,7 @@ namespace lab_1_Nyesteban.Repositories
 
         public async Task<IEnumerable<Game>> GetGamesPaginated(int skip, int take)
         {
-            var result = await _context.Games.OrderBy(g => g.ID).Skip(skip).Take(take).ToListAsync() as IEnumerable<Game>;
+            var result = await _context.Games.Include(a => a.User).OrderBy(g => g.ID).Skip(skip).Take(take).ToListAsync() as IEnumerable<Game>;
             return result;
         }
 

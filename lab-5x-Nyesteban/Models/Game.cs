@@ -1,4 +1,6 @@
-﻿namespace lab_1_Nyesteban.Models
+﻿using lab_5x_Nyesteban.Models;
+
+namespace lab_1_Nyesteban.Models
 {
     public class Game
     {
@@ -8,5 +10,7 @@
         public int GameLength { get; set; }
         public int GameSize { get; set; }
         public decimal GameRating { get; set; }
+        public int UserID { get; set; }
+        public User User { get; set; }
     }
 }
