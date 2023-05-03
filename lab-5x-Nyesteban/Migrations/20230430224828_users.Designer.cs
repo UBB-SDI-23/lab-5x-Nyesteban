@@ -2,18 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using lab_1_Nyesteban.DAL;
 
 #nullable disable
 
-namespace lab_1_Nyesteban.Migrations
+namespace lab_5x_Nyesteban.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230430224828_users")]
+    partial class users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,12 +51,7 @@ namespace lab_1_Nyesteban.Migrations
                     b.Property<string>("AppVersion")
                         .HasColumnType("text");
 
-                    b.Property<int?>("UserID")
-                        .HasColumnType("integer");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("Apps");
                 });
@@ -81,12 +79,7 @@ namespace lab_1_Nyesteban.Migrations
                     b.Property<decimal>("CompanyRevenue")
                         .HasColumnType("numeric");
 
-                    b.Property<int?>("UserID")
-                        .HasColumnType("integer");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("Companies");
                 });
@@ -105,14 +98,9 @@ namespace lab_1_Nyesteban.Migrations
                     b.Property<int>("DevelopmentTimeInHours")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("UserID")
-                        .HasColumnType("integer");
-
                     b.HasKey("CompanyId", "AppId");
 
                     b.HasIndex("AppId");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("DevelopmentDetails");
                 });
@@ -143,35 +131,11 @@ namespace lab_1_Nyesteban.Migrations
                     b.Property<int>("GameSize")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("UserID")
-                        .HasColumnType("integer");
-
                     b.HasKey("ID");
 
                     b.HasIndex("CompanyID");
 
-                    b.HasIndex("UserID");
-
                     b.ToTable("Games");
-                });
-
-            modelBuilder.Entity("lab_5x_Nyesteban.Models.RegistrationCode", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("code")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("generatedTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("RegistrationCodes");
                 });
 
             modelBuilder.Entity("lab_5x_Nyesteban.Models.User", b =>
@@ -215,20 +179,6 @@ namespace lab_1_Nyesteban.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("lab_1_Nyesteban.Models.App", b =>
-                {
-                    b.HasOne("lab_5x_Nyesteban.Models.User", null)
-                        .WithMany("Apps")
-                        .HasForeignKey("UserID");
-                });
-
-            modelBuilder.Entity("lab_1_Nyesteban.Models.Company", b =>
-                {
-                    b.HasOne("lab_5x_Nyesteban.Models.User", null)
-                        .WithMany("Companies")
-                        .HasForeignKey("UserID");
-                });
-
             modelBuilder.Entity("lab_1_Nyesteban.Models.DevelopmentDetail", b =>
                 {
                     b.HasOne("lab_1_Nyesteban.Models.App", "App")
@@ -243,10 +193,6 @@ namespace lab_1_Nyesteban.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("lab_5x_Nyesteban.Models.User", null)
-                        .WithMany("DevelopmentDetails")
-                        .HasForeignKey("UserID");
-
                     b.Navigation("App");
 
                     b.Navigation("Company");
@@ -257,10 +203,6 @@ namespace lab_1_Nyesteban.Migrations
                     b.HasOne("lab_1_Nyesteban.Models.Company", null)
                         .WithMany("Games")
                         .HasForeignKey("CompanyID");
-
-                    b.HasOne("lab_5x_Nyesteban.Models.User", null)
-                        .WithMany("Games")
-                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("lab_1_Nyesteban.Models.App", b =>
@@ -270,17 +212,6 @@ namespace lab_1_Nyesteban.Migrations
 
             modelBuilder.Entity("lab_1_Nyesteban.Models.Company", b =>
                 {
-                    b.Navigation("DevelopmentDetails");
-
-                    b.Navigation("Games");
-                });
-
-            modelBuilder.Entity("lab_5x_Nyesteban.Models.User", b =>
-                {
-                    b.Navigation("Apps");
-
-                    b.Navigation("Companies");
-
                     b.Navigation("DevelopmentDetails");
 
                     b.Navigation("Games");

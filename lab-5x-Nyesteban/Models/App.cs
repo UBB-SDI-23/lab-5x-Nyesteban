@@ -1,4 +1,6 @@
-﻿namespace lab_1_Nyesteban.Models
+﻿using lab_5x_Nyesteban.Models;
+
+namespace lab_1_Nyesteban.Models
 {
     public class App
     {
@@ -14,6 +16,9 @@
         public decimal AppPrice { get; set; }
 
         public int AppRating { get; set; }
+
+        public int UserID { get; set; }
+        public User User { get; set; }
 
         public virtual ICollection<DevelopmentDetail>? DevelopmentDetails { get; set; }
     }

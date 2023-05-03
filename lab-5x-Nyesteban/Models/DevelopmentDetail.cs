@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using lab_5x_Nyesteban.Models;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 namespace lab_1_Nyesteban.Models
 {
@@ -10,6 +11,8 @@ namespace lab_1_Nyesteban.Models
         public int AppId { get; set; }
         [JsonIgnore]
         public App? App { get; set; }
+        public int UserID { get; set; }
+        public User User { get; set; }
         public decimal DevelopmentCosts { get; set; }
         public int DevelopmentTimeInHours { get; set; }
     }
