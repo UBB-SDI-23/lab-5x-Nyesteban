@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Pagination from './Pagination';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { Link } from 'react-router-dom';
 
 function CompaniesCrud() {
     const [id, setId] = useState("");
@@ -396,6 +397,10 @@ function CompaniesCrud() {
                              Company Games Count
                         </th>
 
+                        <th scope="col">
+                            User
+                        </th>
+
                         <th scope="col">Option</th>
                     </tr>
                 </thead>
@@ -410,6 +415,7 @@ function CompaniesCrud() {
                                 <td>{company.companyEstablishmentYear}</td>
                                 <td>{company.companyRating}</td>
                                 <td>{company.games.length}</td>
+                                <td><Link to="/profile" state={{ info: company.user.id }} className="btn btn-primary">{company.user.username}</Link></td>
 
                                 <td>
                                     <button

@@ -42,7 +42,7 @@ namespace lab_1_Nyesteban.Repositories
 
         public async Task<IEnumerable<App>> GetAppsPaginated(int skip, int take)
         {
-            var result = await _context.Apps.Include(a => a.DevelopmentDetails).OrderBy(a => a.ID).Skip(skip).Take(take).ToListAsync() as IEnumerable<App>;
+            var result = await _context.Apps.Include(a => a.User).Include(a => a.DevelopmentDetails).OrderBy(a => a.ID).Skip(skip).Take(take).ToListAsync() as IEnumerable<App>;
             return result;
         }
 

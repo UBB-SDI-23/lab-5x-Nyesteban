@@ -45,7 +45,7 @@ namespace lab_1_Nyesteban.Repositories
 
         public async Task<IEnumerable<Company>> GetCompaniesPaginated(int skip, int take)
         {
-            var result = await _context.Companies.Include(a => a.Games).OrderBy(c => c.ID).Skip(skip).Take(take).ToListAsync() as IEnumerable<Company>;
+            var result = await _context.Companies.Include(a => a.User).Include(a => a.Games).OrderBy(c => c.ID).Skip(skip).Take(take).ToListAsync() as IEnumerable<Company>;
             return result;
         }
 

@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Pagination from './Pagination';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { Link } from 'react-router-dom';
 
 function AppsCrud() {
     const [id, setId] = useState("");
@@ -374,6 +375,10 @@ function AppsCrud() {
                             App Companies Count
                         </th>
 
+                        <th scope="col">
+                            User
+                        </th>
+
                         <th scope="col">Option</th>
                     </tr>
                 </thead>
@@ -389,6 +394,7 @@ function AppsCrud() {
                                 <td>{app.appPrice}</td>
                                 <td>{app.appRating}</td>
                                 <td>{app.developmentDetails.length}</td>
+                                <td><Link to="/profile" state={{ info: app.user.id }} className="btn btn-primary">{app.user.username}</Link></td>
 
                                 <td>
                                     <button
