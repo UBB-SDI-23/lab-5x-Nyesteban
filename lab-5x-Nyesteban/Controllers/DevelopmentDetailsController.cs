@@ -11,6 +11,7 @@ using lab_1_Nyesteban.Repositories.Interfaces;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Data.Entity;
 using System.ComponentModel.Design;
+using Microsoft.AspNetCore.Authorization;
 
 namespace lab_1_Nyesteban.Controllers
 {
@@ -64,6 +65,7 @@ namespace lab_1_Nyesteban.Controllers
 
         // PUT: api/DevelopmentDetails/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "moderator,admin")]
         [HttpPut("{id1}/{id2}")]
             public async Task<IActionResult> PutDevelopmentDetail(int id1, int id2, DevelopmentDetail developmentDetail)
             {
@@ -124,6 +126,7 @@ namespace lab_1_Nyesteban.Controllers
         }
 
         // DELETE: api/DevelopmentDetails/5
+        [Authorize(Roles = "moderator,admin")]
         [HttpDelete("{id1}/{id2}")]
         public async Task<IActionResult> DeleteDevelopmentDetail(int id1, int id2)
         {
@@ -137,6 +140,21 @@ namespace lab_1_Nyesteban.Controllers
                 return Problem(e.Message);
             }
         }
-        
+
+        [Authorize(Roles = "admin")]
+        [HttpDelete("bulk")]
+        public async Task<IActionResult> BulkDeleteDevelopmentDetails()
+        {
+            try
+            {
+                await _repo.BulkDeleteDevelopmentDetails();
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
     }
 }

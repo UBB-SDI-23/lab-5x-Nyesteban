@@ -10,6 +10,7 @@ using lab_1_Nyesteban.Models;
 using lab_1_Nyesteban.Repositories;
 using lab_1_Nyesteban.Repositories.Interfaces;
 using lab_1_Nyesteban.Validators;
+using Microsoft.AspNetCore.Authorization;
 
 namespace lab_1_Nyesteban.Controllers
 {
@@ -76,6 +77,7 @@ namespace lab_1_Nyesteban.Controllers
 
         // PUT: api/Apps/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "moderator,admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutApp(int id, App app)
         {
@@ -89,9 +91,24 @@ namespace lab_1_Nyesteban.Controllers
                 return Problem(e.Message);
             }
         }
+        [Authorize]
+        [HttpPut("{id}/sameuser")]
+        public async Task<IActionResult> PutAppByUser(int id, App app)
+        {
+            try
+            {
+                AppValidator.ValidateApp(app);
+                return Ok(await _repo.UpdateApp(id, app));
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
 
         // POST: api/Apps
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<App>> PostApp(App app)
         {
@@ -108,12 +125,43 @@ namespace lab_1_Nyesteban.Controllers
         }
 
         // DELETE: api/Apps/5
+        [Authorize(Roles = "moderator,admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteApp(int id)
         {
             try
             {
                 await _repo.RemoveApp(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpDelete("{id}/sameuser")]
+        public async Task<IActionResult> DeleteAppByUser(int id)
+        {
+            try
+            {
+                await _repo.RemoveApp(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpDelete("bulk")]
+        public async Task<IActionResult> BulkDeleteApps()
+        {
+            try
+            {
+                await _repo.BulkDeleteApps();
                 return NoContent();
             }
             catch (Exception e)

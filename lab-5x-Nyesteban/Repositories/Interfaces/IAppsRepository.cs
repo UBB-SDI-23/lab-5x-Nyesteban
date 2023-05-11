@@ -18,5 +18,7 @@ namespace lab_1_Nyesteban.Repositories.Interfaces
         public Task<IEnumerable<App>> GetApps();
 
         public Task<App> GetAppById(int id);
+
+        public Task BulkDeleteApps();
     }
 }

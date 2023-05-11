@@ -12,7 +12,7 @@ namespace lab_1_Nyesteban.Models
         [JsonIgnore]
         public App? App { get; set; }
         public int UserID { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
         public decimal DevelopmentCosts { get; set; }
         public int DevelopmentTimeInHours { get; set; }
     }

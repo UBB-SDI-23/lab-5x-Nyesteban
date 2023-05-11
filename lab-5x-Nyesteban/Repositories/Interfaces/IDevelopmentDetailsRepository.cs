@@ -13,5 +13,6 @@ namespace lab_1_Nyesteban.Repositories.Interfaces
         public Task<IEnumerable<App>> GetAppsByCompanyId(int companyId);
         public Task<IEnumerable<Company>> GetCompaniesByAppId(int appId);
         public Task DeleteDevelopmentDetail(int id1, int id2);
+        public Task BulkDeleteDevelopmentDetails();
     }
 }

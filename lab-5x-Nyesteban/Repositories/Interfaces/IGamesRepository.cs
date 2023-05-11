@@ -12,5 +12,7 @@ namespace lab_1_Nyesteban.Repositories.Interfaces
         public Task PostGame(Game game);
         public Task PostGameToOneToMany(int id, Game game);
         public Task DeleteGame(int id);
+        public Task BulkDeleteGames();
+        public Task GenerateGames();
     }
 }

@@ -12,6 +12,8 @@ namespace lab_5x_Nyesteban.Models
         public string RealName { get; set; } = string.Empty;
         public string EMail { get; set; } = string.Empty;
         public string Website { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
+        public int ShowCount { get; set; }
         public virtual ICollection<Company>? Companies { get; set; }
         public virtual ICollection<App>? Apps { get; set; }
         public virtual ICollection<Game>? Games { get; set; }

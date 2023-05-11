@@ -7,6 +7,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Link } from 'react-router-dom';
 import { showCount } from './Profile';
+import { currentToken, currentUserId } from "./Login";
 
 function GamesCrud() {
     const [id, setId] = useState("");
@@ -15,14 +16,19 @@ function GamesCrud() {
     const [gameLength, setLength] = useState("");
     const [gameSize, setSize] = useState("");
     const [gameRating, setRating] = useState("");
+    const [selectedUserId, setUserId] = useState(0);
     const [games, setGames] = useState([]);
     const [skip, setSkip] = useState(0);
     const [take, setTake] = useState(showCount);
     const [currentPage, setCurrentPage] = useState(1);
     const [gamesCount, setCount] = useState(0);
 
+    const config = {
+        headers: { 'Authorization': 'Bearer ' + currentToken }
+    };
+
     const totalPages = async () => {
-        await axios.get("https://nyesteban.twilightparadox.com/api/Games").data.length
+        await axios.get("/api/Games").data.length
     };
 
     const handleSelect = (e) => {
@@ -81,10 +87,10 @@ function GamesCrud() {
 
     async function Load() {
 
-        const result = await axios.get("https://nyesteban.twilightparadox.com/api/Games/paginated/" + skip + "/" + take);
+        const result = await axios.get("/api/Games/paginated/" + skip + "/" + take);
         setGames(result.data);
         console.log(result.data);
-        const resultCount = await axios.get("https://nyesteban.twilightparadox.com/api/Games");
+        const resultCount = await axios.get("/api/Games");
         setCount(resultCount.data.length);
     }
 
@@ -104,15 +110,16 @@ function GamesCrud() {
             return;
         }
         try {
-            await axios.post("https://nyesteban.twilightparadox.com/api/Games", {
+            await axios.post("/api/Games", {
 
                 GameName: gameName,
                 GameDescription: gameDescription,
                 GameLength: gameLength,
                 GameSize: gameSize,
-                GameRating: gameRating
+                GameRating: gameRating,
+                UserID: currentUserId
 
-            });
+            }, config);
             alert("Game Registation Successfully");
             setId("");
             setName("");
@@ -135,35 +142,60 @@ function GamesCrud() {
         setRating(games.gameRating);
 
         setId(games.id);
+        setUserId(games.userID);
     }
 
-    async function DeleteGame(id) {
-        await axios.delete("https://nyesteban.twilightparadox.com/api/Games/" + id);
-        alert("Game deleted Successfully");
-        setId("");
-        setName("");
-        setDescription("");
-        setSize("");
-        setLength("");
-        setRating("");
-        Load();
+    async function DeleteGame(games) {
+        try {
+            if (games.userID != currentUserId)
+                await axios.delete("/api/Games/" + games.id, config);
+            else
+                await axios.delete("/api/Games/" + games.id + "/sameuser", config);
+            alert("Game deleted Successfully");
+            setId("");
+            setName("");
+            setDescription("");
+            setSize("");
+            setLength("");
+            setRating("");
+            Load();
+        } catch (err) {
+            toast(err.message);
+            //alert(err);
+        }
     }
 
     async function update(event) {
         event.preventDefault();
         try {
+            if (selectedUserId != currentUserId) {
+                await axios.put("/api/Games/" + games.find((u) => u.id === id).id || id,
+                    {
+                        ID: id,
+                        GameName: gameName,
+                        GameDescription: gameDescription,
+                        GameLength: gameLength,
+                        GameSize: gameSize,
+                        GameRating: gameRating,
+                        UserID: selectedUserId
 
-            await axios.put("https://nyesteban.twilightparadox.com/api/Games/" + games.find((u) => u.id === id).id || id,
-                {
-                    ID: id,
-                    GameName: gameName,
-                    GameDescription: gameDescription,
-                    GameLength: gameLength,
-                    GameSize: gameSize,
-                    GameRating: gameRating
+                    }, config
+                );
+            }
+            else {
+                await axios.put("/api/Games/" + (games.find((u) => u.id === id).id || id) + "/sameuser",
+                    {
+                        ID: id,
+                        GameName: gameName,
+                        GameDescription: gameDescription,
+                        GameLength: gameLength,
+                        GameSize: gameSize,
+                        GameRating: gameRating,
+                        UserID: selectedUserId
 
-                }
-            );
+                    }, config
+                );
+            }
             alert("Game Updated");
             setId("");
             setName("");
@@ -174,7 +206,8 @@ function GamesCrud() {
 
             Load();
         } catch (err) {
-            alert(err);
+            toast(err.message);
+            //alert(err);
         }
     }
 
@@ -364,7 +397,7 @@ function GamesCrud() {
                                     <button
                                         type="button"
                                         class="btn btn-danger"
-                                        onClick={() => DeleteGame(game.id)}
+                                        onClick={() => DeleteGame(game)}
                                     >
                                         Delete
                                     </button>

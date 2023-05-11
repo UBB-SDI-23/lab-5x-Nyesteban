@@ -1,4 +1,5 @@
-﻿using lab_1_Nyesteban.DAL;
+﻿using EFCore.BulkExtensions;
+using lab_1_Nyesteban.DAL;
 using lab_1_Nyesteban.DTOs;
 using lab_1_Nyesteban.Models;
 using lab_1_Nyesteban.Repositories.Interfaces;
@@ -200,6 +201,17 @@ namespace lab_1_Nyesteban.Repositories
             }
 
             _context.Companies.Remove(company);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task BulkDeleteCompanies()
+        {
+            if (_context.Companies == null)
+            {
+                throw new Exception($"Entity set 'StoreContext.Companies'  is null.");
+            }
+            var companies = _context.Companies.ToList();
+            _context.BulkDelete(companies);
             await _context.SaveChangesAsync();
         }
 

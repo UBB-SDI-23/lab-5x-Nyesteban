@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 using lab_1_Nyesteban.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace lab_5x_Nyesteban.Controllers
 {
@@ -158,6 +159,41 @@ namespace lab_5x_Nyesteban.Controllers
             return Ok(user);
         }
 
+        [HttpGet("getuserid/{username}")]
+        public async Task<ActionResult<User>> GetUserId(string username)
+        {
+            int total = 0;
+            var user = await _context.Users.SingleOrDefaultAsync(a => a.Username == username);
+            if (user == null)
+                return BadRequest("User not found!");
+            return Ok(user.ID);
+        }
+
+        [HttpGet("getuserrole/{username}")]
+        public async Task<ActionResult<User>> GetUserRole(string username)
+        {
+            int total = 0;
+            var user = await _context.Users.SingleOrDefaultAsync(a => a.Username == username);
+            if (user == null)
+                return BadRequest("User not found!");
+            return Ok(user.Role);
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPut("updateroles/{username}/{newrole}")]
+        public async Task<ActionResult<User>> PutUserRole(string username, string newrole)
+        {
+            if(newrole != "regular" && newrole != "moderator" && newrole != "admin")
+                return BadRequest("Wrong role!");
+            int total = 0;
+            var user = await _context.Users.SingleOrDefaultAsync(a => a.Username == username);
+            if (user == null)
+                return BadRequest("User not found!");
+            user.Role = newrole;
+            await _context.SaveChangesAsync();
+            return Ok(user);
+        }
+
         [HttpGet("getuser/{id}/count")]
         public async Task<ActionResult<User>> GetUserEntriesCount(int id)
         {
@@ -216,11 +252,57 @@ namespace lab_5x_Nyesteban.Controllers
             return Ok(total);
         }
 
+        [HttpGet("getuser/{id}/showcount")]
+        public async Task<ActionResult<User>> GetUserShowCount(int id)
+        {
+            int total = 0;
+            var user = await _context.Users.SingleOrDefaultAsync(a => a.ID == id);
+            if (user == null)
+                return BadRequest("User not found!");
+            total = user.ShowCount;
+            return Ok(total);
+        }
+
+        [HttpGet("getusershowcount/{username}")]
+        public async Task<ActionResult<User>> GetUserShowCountByUsername(string username)
+        {
+            int total = 0;
+            var user = await _context.Users.SingleOrDefaultAsync(a => a.Username == username);
+            if (user == null)
+                return BadRequest("User not found!");
+            return Ok(user.ShowCount);
+        }
+
+        [Authorize]
+        [HttpPut("{id}/showcount/{newcount}")]
+        public async Task<ActionResult<User>> PutUserShowCount(int id, int newcount)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(a => a.ID == id);
+            if (user == null)
+                return BadRequest("User not found!");
+            user.ShowCount = newcount;
+            await _context.SaveChangesAsync();
+            return Ok(user);
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPut("updatecount/{username}/showcount/{newcount}")]
+        public async Task<ActionResult<User>> PutUserShowCountAdmin(string username, int newcount)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(a => a.Username == username);
+            if (user == null)
+                return BadRequest("User not found!");
+            user.ShowCount = newcount;
+            await _context.SaveChangesAsync();
+            return Ok(user);
+        }
+
         private string CreateToken(User user)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.Role)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);

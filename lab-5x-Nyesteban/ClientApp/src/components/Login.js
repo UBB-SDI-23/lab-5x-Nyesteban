@@ -4,6 +4,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 let currentlyLoggedIn = "";
+let currentToken = "";
+let currentUserId = 0;
+let currentRole = "";
+let showCount = 12;
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -13,17 +17,47 @@ function Login() {
 
         event.preventDefault();
         try {
-            await axios.post("https://nyesteban.twilightparadox.com/api/Auth/login", {
+            await axios.post("/api/Auth/login", {
 
                 Username: username,
                 Password: password
 
+            }).then(function (response) {
+                currentToken = response.data;
+                console.log(response.data);
             });
             setUsername("");
             setPassword("");
             toast("Login succesful!");
+            await axios.get("/api/Auth/getuserid/" + username).then(function (response) {
+                currentUserId = response.data;
+                console.log(response.data);
+            });
+            await axios.get("/api/Auth/getuserrole/" + username).then(function (response) {
+                currentRole = response.data;
+                console.log(response.data);
+            });
+            await axios.get("/api/Auth/getusershowcount/" + username).then(function (response) {
+                showCount = response.data;
+                console.log(response.data);
+            });
             currentlyLoggedIn = username;
             
+        } catch (err) {
+            toast(err.message);
+            //alert(err);
+        }
+    }
+
+    async function updateShow(event) {
+
+        event.preventDefault();
+        try {
+            await axios.get("/api/Auth/getusershowcount/" + currentlyLoggedIn).then(function (response) {
+                showCount = response.data;
+                console.log(response.data);
+            });
+            toast("Show count changed.");
         } catch (err) {
             toast(err.message);
             //alert(err);
@@ -64,6 +98,11 @@ function Login() {
                             Login
                         </button>
                     </div>
+                    <div>
+                        <button class="btn btn-primary mt-4" onClick={updateShow}>
+                            Update show count
+                        </button>
+                    </div>
                 </form>
             </div>
             <br></br>
@@ -76,4 +115,4 @@ function Login() {
 
 export default Login;
 
-export { currentlyLoggedIn };
+export { currentlyLoggedIn, currentToken, currentUserId, currentRole, showCount };

@@ -7,6 +7,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Link } from 'react-router-dom';
 import { showCount } from './Profile';
+import { currentToken, currentUserId } from './Login';
 
 function AppsCrud() {
     const [id, setId] = useState("");
@@ -16,6 +17,7 @@ function AppsCrud() {
     const [appSize, setSize] = useState("");
     const [appPrice, setPrice] = useState("");
     const [appRating, setRating] = useState("");
+    const [selectedUserId, setUserId] = useState(0);
     const [apps, setApps] = useState([]);
     const [skip, setSkip] = useState(0);
     const [take, setTake] = useState(showCount);
@@ -24,8 +26,12 @@ function AppsCrud() {
     const [appFilter, setFilter] = useState("");
     const [filteredApps, setFilteredApps] = useState([]);
 
+    const config = {
+        headers: { 'Authorization': 'Bearer ' + currentToken }
+    };
+
     const totalPages = async () => {
-        await axios.get("https://nyesteban.twilightparadox.com/api/Apps").data.length
+        await axios.get("/api/Apps").data.length
     };
 
     const handleSelect = (e) => {
@@ -88,17 +94,17 @@ function AppsCrud() {
 
     async function Load() {
 
-        const result = await axios.get("https://nyesteban.twilightparadox.com/api/Apps/paginated/" + skip + "/" + take);
+        const result = await axios.get("/api/Apps/paginated/" + skip + "/" + take);
         setApps(result.data);
         console.log(result.data);
-        const resultCount = await axios.get("https://nyesteban.twilightparadox.com/api/Apps");
+        const resultCount = await axios.get("/api/Apps");
         setCount(resultCount.data.length);
     }
 
     async function LoadFilter() {
         if (isNaN(+appFilter))
             return;
-        const result = await axios.get("https://nyesteban.twilightparadox.com/api/Apps/" + appFilter +"/filter");
+        const result = await axios.get("/api/Apps/" + appFilter +"/filter");
         setFilteredApps(result.data);
         console.log(result.data);
     }
@@ -115,16 +121,17 @@ function AppsCrud() {
             return;
         }
         try {
-            await axios.post("https://nyesteban.twilightparadox.com/api/Apps", {
+            await axios.post("/api/Apps", {
 
                 AppName: appName,
                 AppDescription: appDescription,
                 AppVersion: appVersion,
                 AppSize: appSize,
                 AppPrice: appPrice,
-                AppRating: appRating
+                AppRating: appRating,
+                UserID: currentUserId
 
-            });
+            }, config);
             alert("App Registation Successfully");
             setId("");
             setName("");
@@ -149,37 +156,65 @@ function AppsCrud() {
         setRating(apps.appRating);
 
         setId(apps.id);
+        setUserId(apps.userID);
     }
 
-    async function DeleteApp(id) {
-        await axios.delete("https://nyesteban.twilightparadox.com/api/Apps/" + id);
-        alert("App deleted Successfully");
-        setId("");
-        setName("");
-        setDescription("");
-        setSize("");
-        setVersion("");
-        setPrice("");
-        setRating("");
-        Load();
+    async function DeleteApp(apps) {
+        try {
+            console.log(apps.userID);
+            console.log(currentUserId);
+            if (apps.userID != currentUserId)
+                await axios.delete("/api/Apps/" + apps.id, config);
+            else
+                await axios.delete("/api/Apps/" + apps.id + "/sameuser", config);
+            alert("App deleted Successfully");
+            setId("");
+            setName("");
+            setDescription("");
+            setSize("");
+            setVersion("");
+            setPrice("");
+            setRating("");
+            Load();
+        } catch (err) {
+        toast(err.message);
+        //alert(err);
+    }
     }
 
     async function update(event) {
         event.preventDefault();
         try {
+            if (selectedUserId != currentUserId) {
+                await axios.put("/api/Apps/" + apps.find((u) => u.id === id).id || id,
+                    {
+                        ID: id,
+                        AppName: appName,
+                        AppDescription: appDescription,
+                        AppVersion: appVersion,
+                        AppSize: appSize,
+                        AppPrice: appPrice,
+                        AppRating: appRating,
+                        UserID: selectedUserId
 
-            await axios.put("https://nyesteban.twilightparadox.com/api/Apps/" + apps.find((u) => u.id === id).id || id,
-                {
-                    ID: id,
-                    AppName: appName,
-                    AppDescription: appDescription,
-                    AppVersion: appVersion,
-                    AppSize: appSize,
-                    AppPrice: appPrice,
-                    AppRating: appRating
+                    }, config
+                );
+            }
+            else {
+                await axios.put("/api/Apps/" + (apps.find((u) => u.id === id).id || id) + "/sameuser",
+                    {
+                        ID: id,
+                        AppName: appName,
+                        AppDescription: appDescription,
+                        AppVersion: appVersion,
+                        AppSize: appSize,
+                        AppPrice: appPrice,
+                        AppRating: appRating,
+                        UserID: selectedUserId
 
-                }
-            );
+                    }, config
+                );
+            }
             alert("App Updated");
             setId("");
             setName("");
@@ -408,7 +443,7 @@ function AppsCrud() {
                                     <button
                                         type="button"
                                         class="btn btn-danger"
-                                        onClick={() => DeleteApp(app.id)}
+                                        onClick={() => DeleteApp(app)}
                                     >
                                         Delete
                                     </button>

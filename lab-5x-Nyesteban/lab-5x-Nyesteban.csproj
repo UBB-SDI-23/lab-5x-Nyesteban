@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -12,12 +12,17 @@
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <RootNamespace>lab_5x_Nyesteban</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>6bc54e90-8f0a-435b-a7f3-62a85265abfa</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="axios" Version="0.16.2" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Bogus" Version="34.0.2" />
+    <PackageReference Include="EFCore.BulkExtensions" Version="7.1.0" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="IronPython" Version="3.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.3" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.0-preview.2.23128.3" />

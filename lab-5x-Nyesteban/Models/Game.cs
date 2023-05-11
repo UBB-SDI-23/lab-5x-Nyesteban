@@ -10,7 +10,9 @@ namespace lab_1_Nyesteban.Models
         public int GameLength { get; set; }
         public int GameSize { get; set; }
         public decimal GameRating { get; set; }
+        public int? CompanyID { get; set; }
+        public Company? Company { get; set; }
         public int UserID { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }

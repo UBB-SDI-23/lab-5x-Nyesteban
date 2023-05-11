@@ -4,6 +4,9 @@ using lab_1_Nyesteban.DAL;
 using System.Text.Json;
 using lab_1_Nyesteban.Repositories.Interfaces;
 using lab_1_Nyesteban.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +35,17 @@ builder.Services.AddScoped<IDevelopmentDetailsRepository, DevelopmentDetailsRepo
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAuthentication().AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        ValidateAudience = false,
+        ValidateIssuer = false,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value!))
+    };
+}) ;
 
 var app = builder.Build();
 

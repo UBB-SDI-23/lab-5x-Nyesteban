@@ -6,7 +6,7 @@ import Pagination from './Pagination';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Link } from 'react-router-dom';
-import { showCount } from './Profile';
+import { currentToken, currentUserId, showCount } from './Login';
 
 function CompaniesCrud() {
     const [id, setId] = useState("");
@@ -16,6 +16,7 @@ function CompaniesCrud() {
     const [companyEstablishmentYear, setYear] = useState("");
     const [companyRating, setRating] = useState("");
     const [companies, setCompanies] = useState([]);
+    const [selectedUserId, setUserId] = useState(0);
     const [companiesGames, setCompaniesGames] = useState([]);
     const [companiesApps, setCompaniesApps] = useState([]);
     const [skip, setSkip] = useState(0);
@@ -28,8 +29,12 @@ function CompaniesCrud() {
     const [companyIDknown, setIDknown] = useState(0);
     const [gameID, setGameID] = useState(0);
 
+    const config = {
+        headers: { 'Authorization': 'Bearer ' + currentToken }
+    };
+
     const totalPages = async () => {
-        await axios.get("https://nyesteban.twilightparadox.com/api/Companies").data.length
+        await axios.get("/api/Companies").data.length
     };
 
     const handleSelect = (e) => {
@@ -106,27 +111,27 @@ function CompaniesCrud() {
 
     async function Load() {
 
-        const result = await axios.get("https://nyesteban.twilightparadox.com/api/Companies/paginated/" + skip + "/" + take);
+        const result = await axios.get("/api/Companies/paginated/" + skip + "/" + take);
         setCompanies(result.data);
         console.log(result.data);
-        const resultCount = await axios.get("https://nyesteban.twilightparadox.com/api/Companies");
+        const resultCount = await axios.get("/api/Companies");
         setCount(resultCount.data.length);
-        const resultGames = await axios.get("https://nyesteban.twilightparadox.com/api/Companies/paginatedGameRating/" + skipGames + "/" + takeGames);
+        const resultGames = await axios.get("/api/Companies/paginatedGameRating/" + skipGames + "/" + takeGames);
         setCompaniesGames(resultGames.data);
         console.log(resultGames.data);
-        const resultApps = await axios.get("https://nyesteban.twilightparadox.com/api/Companies/AppCount");
+        const resultApps = await axios.get("/api/Companies/AppCount");
         setCompaniesApps(resultApps.data);
         console.log(resultApps.data);
     }
     async function LoadMainOnly() {
 
-        const result = await axios.get("https://nyesteban.twilightparadox.com/api/Companies/paginated/" + skip + "/" + take);
+        const result = await axios.get("/api/Companies/paginated/" + skip + "/" + take);
         setCompanies(result.data);
         console.log(result.data);
     }
     async function LoadGamesOnly() {
 
-        const resultGames = await axios.get("https://nyesteban.twilightparadox.com/api/Companies/paginatedGameRating/" + skipGames + "/" + takeGames);
+        const resultGames = await axios.get("/api/Companies/paginatedGameRating/" + skipGames + "/" + takeGames);
         setCompaniesGames(resultGames.data);
         console.log(resultGames.data);
     }
@@ -138,15 +143,17 @@ function CompaniesCrud() {
             return;
         }
         try {
-            await axios.post("https://nyesteban.twilightparadox.com/api/Companies", {
+            console.log(currentUserId);
+            await axios.post("/api/Companies", {
 
                 CompanyName: companyName,
                 CompanyDescription: companyDescription,
                 CompanyRevenue: companyRevenue,
                 CompanyEstablishmentYear: companyEstablishmentYear,
-                CompanyRating: companyRating
+                CompanyRating: companyRating,
+                UserID: currentUserId
 
-            });
+            }, config);
             alert("Company Registation Successfully");
             setId("");
             setName("");
@@ -165,7 +172,7 @@ function CompaniesCrud() {
 
         event.preventDefault();
         try {
-            await axios.put("https://nyesteban.twilightparadox.com/api/Companies/" + companyIDknown + "/game/" + gameID);
+            await axios.put("/api/Companies/" + companyIDknown + "/game/" + gameID, config);
             alert("Assignment Successful");
             setIDknown(0);
             setGameID(0);
@@ -184,10 +191,15 @@ function CompaniesCrud() {
         setRating(companies.companyRating);
 
         setId(companies.id);
+        setUserId(companies.userID);
     }
 
-    async function DeleteCompany(id) {
-        await axios.delete("https://nyesteban.twilightparadox.com/api/Companies/" + id);
+    async function DeleteCompany(companies) {
+        try {
+            if (companies.userID != currentUserId)
+            await axios.delete("/api/Companies/" + companies.id, config);
+        else
+            await axios.delete("api/Companies/" + companies.id + "/sameuser", config);
         alert("Company deleted Successfully");
         setId("");
         setName("");
@@ -195,24 +207,44 @@ function CompaniesCrud() {
         setRevenue("");
         setYear("");
         setRating("");
-        Load();
+            Load();
+        } catch (err) {
+            toast(err.message);
+            //alert(err);
+        }
     }
     
     async function update(event) {
         event.preventDefault();
         try {
+            if (selectedUserId != currentUserId) {
+                await axios.put("/api/Companies/" + companies.find((u) => u.id === id).id || id,
+                    {
+                        ID: id,
+                        CompanyName: companyName,
+                        CompanyDescription: companyDescription,
+                        CompanyRevenue: companyRevenue,
+                        CompanyEstablishmentYear: companyEstablishmentYear,
+                        CompanyRating: companyRating,
+                        UserID: selectedUserId
 
-            await axios.put("https://nyesteban.twilightparadox.com/api/Companies/" + companies.find((u) => u.id === id).id || id,
-                {
-                    ID: id,
-                    CompanyName: companyName,
-                    CompanyDescription: companyDescription,
-                    CompanyRevenue: companyRevenue,
-                    CompanyEstablishmentYear: companyEstablishmentYear,
-                    CompanyRating: companyRating
+                    }, config
+                );
+            }
+            else {
+                await axios.put("/api/Companies/" + (companies.find((u) => u.id === id).id || id) + "/sameuser",
+                    {
+                        ID: id,
+                        CompanyName: companyName,
+                        CompanyDescription: companyDescription,
+                        CompanyRevenue: companyRevenue,
+                        CompanyEstablishmentYear: companyEstablishmentYear,
+                        CompanyRating: companyRating,
+                        UserID: selectedUserId
 
-                }
-            );
+                    }, config
+                );
+            }
             alert("Registation Updated");
             setId("");
             setName("");
@@ -429,7 +461,7 @@ function CompaniesCrud() {
                                     <button
                                         type="button"
                                         class="btn btn-danger"
-                                        onClick={() => DeleteCompany(company.id)}
+                                        onClick={() => DeleteCompany(company)}
                                     >
                                         Delete
                                     </button>

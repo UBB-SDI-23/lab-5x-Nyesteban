@@ -14,7 +14,7 @@ namespace lab_1_Nyesteban.Models
         public int CompanyEstablishmentYear { get; set; }
         public decimal CompanyRating { get; set; }
         public int UserID { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
         public virtual ICollection<Game>? Games { get; set; }
         public virtual ICollection<DevelopmentDetail>? DevelopmentDetails { get; set; }
     }

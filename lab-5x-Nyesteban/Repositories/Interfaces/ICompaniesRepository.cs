@@ -16,6 +16,7 @@ namespace lab_1_Nyesteban.Repositories.Interfaces
         public Task<Company> PutCompanyGameIds(int id, List<int> gameids);
         public Task PostCompany(Company company);
         public Task DeleteCompany(int id);
+        public Task BulkDeleteCompanies();
         public  Task<IEnumerable<CompanyGamesDTO>> GetCompaniesOrderedByAverageGameRating();
         public Task<IEnumerable<CompanyAppsDTO>> GetCompaniesOrderedByAppCount();
 

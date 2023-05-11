@@ -18,7 +18,7 @@ namespace lab_1_Nyesteban.Models
         public int AppRating { get; set; }
 
         public int UserID { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
 
         public virtual ICollection<DevelopmentDetail>? DevelopmentDetails { get; set; }
     }

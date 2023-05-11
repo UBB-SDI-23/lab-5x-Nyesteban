@@ -9,6 +9,7 @@ using lab_1_Nyesteban.DAL;
 using lab_1_Nyesteban.Models;
 using lab_1_Nyesteban.Repositories.Interfaces;
 using lab_1_Nyesteban.Validators;
+using Microsoft.AspNetCore.Authorization;
 
 namespace lab_1_Nyesteban.Controllers
 {
@@ -61,6 +62,7 @@ namespace lab_1_Nyesteban.Controllers
 
         // PUT: api/Games/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "moderator,admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGame(int id, Game game)
         {
@@ -75,8 +77,24 @@ namespace lab_1_Nyesteban.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPut("{id}/sameuser")]
+        public async Task<IActionResult> PutGameByUser(int id, Game game)
+        {
+            try
+            {
+                GameValidator.ValidateGame(game);
+                return Ok(await _repo.PutGame(id, game));
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
         // POST: api/Games
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Game>> PostGame(Game game)
         {
@@ -108,12 +126,58 @@ namespace lab_1_Nyesteban.Controllers
         }
 
         // DELETE: api/Games/5
+        [Authorize(Roles = "moderator,admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGame(int id)
         {
             try
             {
                 await _repo.DeleteGame(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpDelete("{id}/sameuser")]
+        public async Task<IActionResult> DeleteGameByUser(int id)
+        {
+            try
+            {
+                await _repo.DeleteGame(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpDelete("bulk")]
+        public async Task<IActionResult> BulkDeleteGames()
+        {
+            try
+            {
+                await _repo.BulkDeleteGames();
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost("bulk")]
+        public async Task<IActionResult> GenerateGames()
+        {
+            try
+            {
+                await _repo.GenerateGames();
                 return NoContent();
             }
             catch (Exception e)

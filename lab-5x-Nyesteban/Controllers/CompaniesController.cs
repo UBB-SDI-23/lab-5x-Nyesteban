@@ -15,6 +15,7 @@ using System.ComponentModel.Design;
 using lab_1_Nyesteban.Repositories.Interfaces;
 using System.Data.Entity;
 using lab_1_Nyesteban.Validators;
+using Microsoft.AspNetCore.Authorization;
 
 namespace lab_1_Nyesteban.Controllers
 {
@@ -44,6 +45,7 @@ namespace lab_1_Nyesteban.Controllers
         }
 
         // GET: api/Companies/5
+        [Authorize(Roles = "moderator,admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Company>> GetCompany(int id)
         {
@@ -67,8 +69,24 @@ namespace lab_1_Nyesteban.Controllers
 
         // PUT: api/Companies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "moderator,admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCompany(int id, Company company)
+        {
+            try
+            {
+                CompanyValidator.ValidateCompany(company);
+                return Ok(await _repo.PutCompany(id, company));
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpPut("{id}/sameuser")]
+        public async Task<IActionResult> PutCompanyOfUser(int id, Company company)
         {
             try
             {
@@ -94,6 +112,7 @@ namespace lab_1_Nyesteban.Controllers
             }
         }
 
+        [Authorize(Roles = "moderator,admin")]
         [HttpPut("{id}/game/{gameid}")]
         public async Task<IActionResult> PutCompanyGameId(int id, int gameid)
         {
@@ -122,6 +141,7 @@ namespace lab_1_Nyesteban.Controllers
 
         // POST: api/Companies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Company>> PostCompany(Company company)
         {
@@ -166,12 +186,43 @@ namespace lab_1_Nyesteban.Controllers
         }*/
 
         // DELETE: api/Companies/5
+        [Authorize(Roles = "moderator,admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany(int id)
         {
             try
             {
                 await _repo.DeleteCompany(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpDelete("{id}/sameuser")]
+        public async Task<IActionResult> DeleteCompanyOfUser(int id)
+        {
+            try
+            {
+                await _repo.DeleteCompany(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpDelete("bulk")]
+        public async Task<IActionResult> BulkDeleteCompanies()
+        {
+            try
+            {
+                await _repo.BulkDeleteCompanies();
                 return NoContent();
             }
             catch (Exception e)

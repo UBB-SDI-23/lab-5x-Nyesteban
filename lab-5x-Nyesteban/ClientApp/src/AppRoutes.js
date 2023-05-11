@@ -8,6 +8,7 @@ import DevelopmentDetailsCrud from "./components/DevelopmentDetailsCrud";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
+import Admin from "./components/Admin";
 
 const AppRoutes = [
   {
@@ -45,6 +46,10 @@ const AppRoutes = [
   {
     path: '/profile',
     element: <Profile />
+  },
+  {
+    path: '/admin',
+    element: <Admin />
   }
 ];
 

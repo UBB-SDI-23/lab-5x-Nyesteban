@@ -1,4 +1,6 @@
-﻿using lab_1_Nyesteban.DAL;
+﻿using Bogus;
+using EFCore.BulkExtensions;
+using lab_1_Nyesteban.DAL;
 using lab_1_Nyesteban.Models;
 using lab_1_Nyesteban.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +25,20 @@ namespace lab_1_Nyesteban.Repositories
             }
             var result = _context.Set<Game>().ToList() as IEnumerable<Game>;
             return Task.FromResult(result);
+        }
+
+        public async Task GenerateGames()
+        {
+            if (_context.Games == null)
+            {
+                throw new Exception($"Entity set 'StoreContext.Games'  is null.");
+            }
+            var gameIds = 0;
+            var testGames = new Faker<Game>().RuleFor(g => g.ID, f => ++gameIds).RuleFor(g => g.GameName, f => f.Lorem.Word()).RuleFor(g => g.GameDescription, f => f.Lorem.Sentence()).RuleFor(g => g.GameLength, f => f.Random.Int(1,100)).RuleFor(g => g.GameSize, f => f.Random.Int(1, 100000))
+                .RuleFor(g => g.GameRating, f => f.Random.Decimal(1,5)).RuleFor(g => g.CompanyID, f => f.Random.Int(1, 100000)).RuleFor(g => g.UserID, f => f.Random.Int(1, 10000));
+            var games = testGames.Generate(1000000);
+            _context.BulkInsert(games);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<ActionResult<Game>> GetGame(int id)
@@ -119,6 +135,17 @@ namespace lab_1_Nyesteban.Repositories
             }
 
             _context.Games.Remove(game);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task BulkDeleteGames()
+        {
+            if (_context.Games == null)
+            {
+                throw new Exception($"Entity set 'StoreContext.Games'  is null.");
+            }
+            var games = _context.Games.ToList();
+            _context.BulkDelete(games);
             await _context.SaveChangesAsync();
         }
 

@@ -2,18 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using lab_1_Nyesteban.DAL;
 
 #nullable disable
 
-namespace lab_1_Nyesteban.Migrations
+namespace lab_5x_Nyesteban.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230509165846_user_roles")]
+    partial class user_roles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -206,9 +209,6 @@ namespace lab_1_Nyesteban.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ShowCount")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("text");
@@ -273,7 +273,7 @@ namespace lab_1_Nyesteban.Migrations
 
             modelBuilder.Entity("lab_1_Nyesteban.Models.Game", b =>
                 {
-                    b.HasOne("lab_1_Nyesteban.Models.Company", "Company")
+                    b.HasOne("lab_1_Nyesteban.Models.Company", null)
                         .WithMany("Games")
                         .HasForeignKey("CompanyID");
 
@@ -282,8 +282,6 @@ namespace lab_1_Nyesteban.Migrations
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Company");
 
                     b.Navigation("User");
                 });

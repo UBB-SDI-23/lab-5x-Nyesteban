@@ -1,4 +1,5 @@
-﻿using lab_1_Nyesteban.DAL;
+﻿using EFCore.BulkExtensions;
+using lab_1_Nyesteban.DAL;
 using lab_1_Nyesteban.Models;
 using lab_1_Nyesteban.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -116,6 +117,17 @@ namespace lab_1_Nyesteban.Repositories
             }
 
             return app;
+        }
+
+        public async Task BulkDeleteApps()
+        {
+            if (_context.Apps == null)
+            {
+                throw new Exception($"Entity set 'StoreContext.Apps'  is null.");
+            }
+            var apps = _context.Apps.ToList();
+            _context.BulkDelete(apps);
+            await _context.SaveChangesAsync();
         }
 
         private bool AppExists(int id)

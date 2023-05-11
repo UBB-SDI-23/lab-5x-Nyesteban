@@ -1,4 +1,5 @@
-﻿using lab_1_Nyesteban.DAL;
+﻿using EFCore.BulkExtensions;
+using lab_1_Nyesteban.DAL;
 using lab_1_Nyesteban.Models;
 using lab_1_Nyesteban.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -127,6 +128,17 @@ namespace lab_1_Nyesteban.Repositories
             }
 
             _context.DevelopmentDetails.Remove(developmentDetail);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task BulkDeleteDevelopmentDetails()
+        {
+            if (_context.DevelopmentDetails == null)
+            {
+                throw new Exception($"Entity set 'StoreContext.DevelopmentDetails'  is null.");
+            }
+            var devdetails = _context.DevelopmentDetails.ToList();
+            _context.BulkDelete(devdetails);
             await _context.SaveChangesAsync();
         }
 

@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Pagination from './Pagination';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { currentToken, currentUserId } from './Login';
 
 function DevelopmentDetailsCrud() {
     const [companyId, setCompanyId] = useState("");
@@ -17,8 +18,12 @@ function DevelopmentDetailsCrud() {
     const [currentPage, setCurrentPage] = useState(1);
     const [ddCount, setCount] = useState(0);
 
+    const config = {
+        headers: { 'Authorization': 'Bearer ' + currentToken }
+    };
+
     const totalPages = async () => {
-        await axios.get("https://nyesteban.twilightparadox.com/api/DevelopmentDetails").data.length
+        await axios.get("/api/DevelopmentDetails").data.length
     };
 
     const handleSelect = (e) => {
@@ -77,10 +82,10 @@ function DevelopmentDetailsCrud() {
 
     async function Load() {
 
-        const result = await axios.get("https://nyesteban.twilightparadox.com/api/DevelopmentDetails/paginated/" + skip + "/" + take);
+        const result = await axios.get("/api/DevelopmentDetails/paginated/" + skip + "/" + take);
         setDevelopmentDetails(result.data);
         console.log(result.data);
-        const resultCount = await axios.get("https://nyesteban.twilightparadox.com/api/DevelopmentDetails");
+        const resultCount = await axios.get("/api/DevelopmentDetails");
         setCount(resultCount.data.length);
     }
 
@@ -88,14 +93,14 @@ function DevelopmentDetailsCrud() {
 
         event.preventDefault();
         try {
-            await axios.post("https://nyesteban.twilightparadox.com/api/DevelopmentDetails", {
+            await axios.post("/api/DevelopmentDetails", {
 
                 CompanyId: companyId,
                 AppId: appId,
                 DevelopmentCosts: ddCosts,
                 DevelopmentTimeInHours: ddTime,
 
-            });
+            }, config);
             alert("DevelopmentDetail Registation Successfully");
             setCompanyId("");
             setAppId("");
@@ -116,7 +121,7 @@ function DevelopmentDetailsCrud() {
     }
 
     async function DeleteDevelopmentDetail(companyId, appId) {
-        await axios.delete("https://nyesteban.twilightparadox.com/api/DevelopmentDetails/" + companyId + "/" + appId);
+        await axios.delete("/api/DevelopmentDetails/" + companyId + "/" + appId);
         alert("DevelopmentDetail deleted Successfully");
         setCompanyId("");
         setAppId("");
@@ -129,14 +134,14 @@ function DevelopmentDetailsCrud() {
         event.preventDefault();
         try {
 
-            await axios.put("https://nyesteban.twilightparadox.com/api/DevelopmentDetails/" + companyId + "/" + appId,
+            await axios.put("/api/DevelopmentDetails/" + companyId + "/" + appId,
                 {
                     CompanyId: companyId,
                     AppId: appId,
                     DevelopmentCosts: ddCosts,
                     DevelopmentTimeInHours: ddTime,
 
-                }
+                }, config
             );
             alert("DevelopmentDetail Updated");
             setCompanyId("");
