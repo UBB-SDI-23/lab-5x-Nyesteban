@@ -31,7 +31,7 @@ function AppsCrud() {
     };
 
     const totalPages = async () => {
-        await axios.get("/api/Apps").data.length
+        await axios.get("https://nyesteban.twilightparadox.com/api/Apps").data.length
     };
 
     const handleSelect = (e) => {
@@ -94,17 +94,17 @@ function AppsCrud() {
 
     async function Load() {
 
-        const result = await axios.get("/api/Apps/paginated/" + skip + "/" + take);
+        const result = await axios.get("https://nyesteban.twilightparadox.com/api/Apps/paginated/" + skip + "/" + take);
         setApps(result.data);
         console.log(result.data);
-        const resultCount = await axios.get("/api/Apps");
+        const resultCount = await axios.get("https://nyesteban.twilightparadox.com/api/Apps");
         setCount(resultCount.data.length);
     }
 
     async function LoadFilter() {
         if (isNaN(+appFilter))
             return;
-        const result = await axios.get("/api/Apps/" + appFilter +"/filter");
+        const result = await axios.get("https://nyesteban.twilightparadox.com/api/Apps/" + appFilter +"/filter");
         setFilteredApps(result.data);
         console.log(result.data);
     }
@@ -121,7 +121,7 @@ function AppsCrud() {
             return;
         }
         try {
-            await axios.post("/api/Apps", {
+            await axios.post("https://nyesteban.twilightparadox.com/api/Apps", {
 
                 AppName: appName,
                 AppDescription: appDescription,
@@ -164,9 +164,9 @@ function AppsCrud() {
             console.log(apps.userID);
             console.log(currentUserId);
             if (apps.userID != currentUserId)
-                await axios.delete("/api/Apps/" + apps.id, config);
+                await axios.delete("https://nyesteban.twilightparadox.com/api/Apps/" + apps.id, config);
             else
-                await axios.delete("/api/Apps/" + apps.id + "/sameuser", config);
+                await axios.delete("https://nyesteban.twilightparadox.com/api/Apps/" + apps.id + "/sameuser", config);
             alert("App deleted Successfully");
             setId("");
             setName("");
@@ -186,7 +186,7 @@ function AppsCrud() {
         event.preventDefault();
         try {
             if (selectedUserId != currentUserId) {
-                await axios.put("/api/Apps/" + apps.find((u) => u.id === id).id || id,
+                await axios.put("https://nyesteban.twilightparadox.com/api/Apps/" + apps.find((u) => u.id === id).id || id,
                     {
                         ID: id,
                         AppName: appName,
@@ -201,7 +201,7 @@ function AppsCrud() {
                 );
             }
             else {
-                await axios.put("/api/Apps/" + (apps.find((u) => u.id === id).id || id) + "/sameuser",
+                await axios.put("https://nyesteban.twilightparadox.com/api/Apps/" + (apps.find((u) => u.id === id).id || id) + "/sameuser",
                     {
                         ID: id,
                         AppName: appName,

@@ -17,7 +17,7 @@ function Admin() {
 
         event.preventDefault();
         try {
-            await axios.put("/api/Auth/updateroles/" + username + "/" + role, {}, config);
+            await axios.put("https://nyesteban.twilightparadox.com/api/Auth/updateroles/" + username + "/" + role, {}, config);
             setUsername("");
             setRole("");
             toast("Role changed.");
@@ -31,7 +31,7 @@ function Admin() {
 
         event.preventDefault();
         try {
-            await axios.put("/api/Auth/updatecount/" + username + "/showcount/" + showCountHere, {}, config);
+            await axios.put("https://nyesteban.twilightparadox.com/api/Auth/updatecount/" + username + "/showcount/" + showCountHere, {}, config);
             setUsername("");
             setShowCount("");
             toast("Show count changed.");
@@ -45,7 +45,7 @@ function Admin() {
 
         event.preventDefault();
         try {
-            await axios.delete("/api/Games/bulk/", config);
+            await axios.delete("https://https://nyesteban.twilightparadox.com/api/Games/bulk/", config);
             toast("Games bulk deleted.");
         } catch (err) {
             toast(err.message);
@@ -57,7 +57,7 @@ function Admin() {
 
         event.preventDefault();
         try {
-            await axios.delete("/api/Companies/bulk/", config);
+            await axios.delete("https://nyesteban.twilightparadox.com/api/Companies/bulk/", config);
             toast("Companies bulk deleted.");
         } catch (err) {
             toast(err.message);
@@ -69,7 +69,7 @@ function Admin() {
 
         event.preventDefault();
         try {
-            await axios.delete("/api/DevelopmentDetails/bulk/", config);
+            await axios.delete("https://nyesteban.twilightparadox.com/api/DevelopmentDetails/bulk/", config);
             toast("DevelopmentDetails bulk deleted.");
         } catch (err) {
             toast(err.message);
@@ -81,7 +81,7 @@ function Admin() {
 
         event.preventDefault();
         try {
-            await axios.delete("/api/Apps/bulk/", config);
+            await axios.delete("https://nyesteban.twilightparadox.com/api/Apps/bulk/", config);
             toast("Apps bulk deleted.");
         } catch (err) {
             toast(err.message);
@@ -93,7 +93,7 @@ function Admin() {
 
         event.preventDefault();
         try {
-            await axios.post("/api/Games/bulk/", {}, config);
+            await axios.post("https://nyesteban.twilightparadox.com/api/Games/bulk/", {}, config);
             toast("Games generated.");
         } catch (err) {
             toast(err.message);

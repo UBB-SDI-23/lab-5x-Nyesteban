@@ -17,7 +17,7 @@ function Login() {
 
         event.preventDefault();
         try {
-            await axios.post("/api/Auth/login", {
+            await axios.post("https://nyesteban.twilightparadox.com/api/Auth/login", {
 
                 Username: username,
                 Password: password
@@ -29,15 +29,15 @@ function Login() {
             setUsername("");
             setPassword("");
             toast("Login succesful!");
-            await axios.get("/api/Auth/getuserid/" + username).then(function (response) {
+            await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuserid/" + username).then(function (response) {
                 currentUserId = response.data;
                 console.log(response.data);
             });
-            await axios.get("/api/Auth/getuserrole/" + username).then(function (response) {
+            await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuserrole/" + username).then(function (response) {
                 currentRole = response.data;
                 console.log(response.data);
             });
-            await axios.get("/api/Auth/getusershowcount/" + username).then(function (response) {
+            await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getusershowcount/" + username).then(function (response) {
                 showCount = response.data;
                 console.log(response.data);
             });
@@ -53,7 +53,7 @@ function Login() {
 
         event.preventDefault();
         try {
-            await axios.get("/api/Auth/getusershowcount/" + currentlyLoggedIn).then(function (response) {
+            await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getusershowcount/" + currentlyLoggedIn).then(function (response) {
                 showCount = response.data;
                 console.log(response.data);
             });

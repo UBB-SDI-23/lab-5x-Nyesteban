@@ -33,13 +33,13 @@ function Profile() {
 
     async function getData() {
 
-        const result = await axios.get("/api/Auth/getuser/" + data.state.info);
-        const counter = await axios.get("/api/Auth/getuser/" + data.state.info + "/count");
-        const counterapp = await axios.get("/api/Auth/getuser/" + data.state.info + "/appcount");
-        const countercompany = await axios.get("/api/Auth/getuser/" + data.state.info + "/companycount");
-        const counterdev = await axios.get("/api/Auth/getuser/" + data.state.info + "/devcount");
-        const countergame = await axios.get("/api/Auth/getuser/" + data.state.info + "/gamecount");
-        const showCounter = await axios.get("/api/Auth/getuser/" + data.state.info + "/showcount");
+        const result = await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuser/" + data.state.info);
+        const counter = await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuser/" + data.state.info + "/count");
+        const counterapp = await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuser/" + data.state.info + "/appcount");
+        const countercompany = await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuser/" + data.state.info + "/companycount");
+        const counterdev = await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuser/" + data.state.info + "/devcount");
+        const countergame = await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuser/" + data.state.info + "/gamecount");
+        const showCounter = await axios.get("https://nyesteban.twilightparadox.com/api/Auth/getuser/" + data.state.info + "/showcount");
         setUsername(result.data.username);
         setBio(result.data.bio);
         setLocation(result.data.location);
@@ -57,7 +57,7 @@ function Profile() {
     async function putShowCount(event) {
         event.preventDefault();
         try {
-            await axios.put("/api/Auth/" + data.state.info + "/showcount/" + showCountHere, {}, config);
+            await axios.put("https://nyesteban.twilightparadox.com/api/Auth/" + data.state.info + "/showcount/" + showCountHere, {}, config);
             toast("Show count updated.");
         } catch (err) {
             toast(err.message);

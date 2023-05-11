@@ -28,7 +28,7 @@ function GamesCrud() {
     };
 
     const totalPages = async () => {
-        await axios.get("/api/Games").data.length
+        await axios.get("https://nyesteban.twilightparadox.com/api/Games").data.length
     };
 
     const handleSelect = (e) => {
@@ -87,10 +87,10 @@ function GamesCrud() {
 
     async function Load() {
 
-        const result = await axios.get("/api/Games/paginated/" + skip + "/" + take);
+        const result = await axios.get("https://nyesteban.twilightparadox.com/api/Games/paginated/" + skip + "/" + take);
         setGames(result.data);
         console.log(result.data);
-        const resultCount = await axios.get("/api/Games");
+        const resultCount = await axios.get("https://nyesteban.twilightparadox.com/api/Games");
         setCount(resultCount.data.length);
     }
 
@@ -110,7 +110,7 @@ function GamesCrud() {
             return;
         }
         try {
-            await axios.post("/api/Games", {
+            await axios.post("https://nyesteban.twilightparadox.com/api/Games", {
 
                 GameName: gameName,
                 GameDescription: gameDescription,
@@ -148,9 +148,9 @@ function GamesCrud() {
     async function DeleteGame(games) {
         try {
             if (games.userID != currentUserId)
-                await axios.delete("/api/Games/" + games.id, config);
+                await axios.delete("https://nyesteban.twilightparadox.com/api/Games/" + games.id, config);
             else
-                await axios.delete("/api/Games/" + games.id + "/sameuser", config);
+                await axios.delete("https://nyesteban.twilightparadox.com/api/Games/" + games.id + "/sameuser", config);
             alert("Game deleted Successfully");
             setId("");
             setName("");
@@ -169,7 +169,7 @@ function GamesCrud() {
         event.preventDefault();
         try {
             if (selectedUserId != currentUserId) {
-                await axios.put("/api/Games/" + games.find((u) => u.id === id).id || id,
+                await axios.put("https://nyesteban.twilightparadox.com/api/Games/" + games.find((u) => u.id === id).id || id,
                     {
                         ID: id,
                         GameName: gameName,
@@ -183,7 +183,7 @@ function GamesCrud() {
                 );
             }
             else {
-                await axios.put("/api/Games/" + (games.find((u) => u.id === id).id || id) + "/sameuser",
+                await axios.put("https://nyesteban.twilightparadox.com/api/Games/" + (games.find((u) => u.id === id).id || id) + "/sameuser",
                     {
                         ID: id,
                         GameName: gameName,
