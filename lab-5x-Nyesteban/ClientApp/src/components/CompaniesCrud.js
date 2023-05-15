@@ -111,7 +111,7 @@ function CompaniesCrud() {
 
     async function Load() {
 
-        const result = await axios.get("/api/Companies/paginated/" + skip + "/" + take);
+        const result = await axios.get("https://nyesteban.twilightparadox.com/api/Companies/paginated/" + skip + "/" + take);
         setCompanies(result.data);
         console.log(result.data);
         const resultCount = await axios.get("https://nyesteban.twilightparadox.com/api/Companies");
@@ -199,7 +199,7 @@ function CompaniesCrud() {
             if (companies.userID != currentUserId)
             await axios.delete("https://nyesteban.twilightparadox.com/api/Companies/" + companies.id, config);
         else
-            await axios.delete("api/Companies/" + companies.id + "/sameuser", config);
+                await axios.delete("https://nyesteban.twilightparadox.com/api/Companies/api/Companies/" + companies.id + "/sameuser", config);
         alert("Company deleted Successfully");
         setId("");
         setName("");
@@ -416,7 +416,7 @@ function CompaniesCrud() {
                                 Company Establishment Year
                             </button>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="d-none d-sm-table-cell">
                             <button
                                 type="button"
                                 onClick={() => requestSort('companyRating')}

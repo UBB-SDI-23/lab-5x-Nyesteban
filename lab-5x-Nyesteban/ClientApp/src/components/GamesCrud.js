@@ -330,7 +330,7 @@ function GamesCrud() {
                                 Game Name
                             </button>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="d-none d-sm-table-cell">
                             <button
                                 type="button"
                                 onClick={() => requestSort('gameDescription')}
@@ -339,7 +339,7 @@ function GamesCrud() {
                                 Game Description
                             </button>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="d-none d-sm-table-cell">
                             <button
                                 type="button"
                                 onClick={() => requestSort('gameLength')}
@@ -348,7 +348,7 @@ function GamesCrud() {
                                 Game Length
                             </button>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="d-none d-sm-table-cell">
                             <button
                                 type="button"
                                 onClick={() => requestSort('gameSize')}

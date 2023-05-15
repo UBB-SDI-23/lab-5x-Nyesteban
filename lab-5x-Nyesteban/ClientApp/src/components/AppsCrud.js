@@ -361,7 +361,7 @@ function AppsCrud() {
                                 App Name
                             </button>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="d-none d-sm-table-cell">
                             <button
                                 type="button"
                                 onClick={() => requestSort('appDescription')}
@@ -370,7 +370,7 @@ function AppsCrud() {
                                 App Description
                             </button>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="d-none d-sm-table-cell">
                             <button
                                 type="button"
                                 onClick={() => requestSort('appVersion')}
@@ -379,7 +379,7 @@ function AppsCrud() {
                                 App Version
                             </button>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="d-none d-sm-table-cell">
                             <button
                                 type="button"
                                 onClick={() => requestSort('appSize')}
@@ -388,7 +388,7 @@ function AppsCrud() {
                                 App Size
                             </button>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="d-none d-sm-table-cell">
                             <button
                                 type="button"
                                 onClick={() => requestSort('appPrice')}
@@ -397,7 +397,7 @@ function AppsCrud() {
                                 App Size
                             </button>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="d-none d-sm-table-cell">
                             <button
                                 type="button"
                                 onClick={() => requestSort('appRating')}
@@ -503,9 +503,9 @@ function AppsCrud() {
                 <thead>
                     <tr>
                         <th scope="col">App Name</th>
-                        <th scope="col">App Description</th>
-                        <th scope="col">App Version</th>
-                        <th scope="col">App Size</th>
+                        <th scope="col" class="d-none d-sm-table-cell">App Description</th>
+                        <th scope="col" class="d-none d-sm-table-cell">App Version</th>
+                        <th scope="col" class="d-none d-sm-table-cell">App Size</th>
                         <th scope="col">App Price</th>
                         <th scope="col">App Rating</th>
                     </tr>
