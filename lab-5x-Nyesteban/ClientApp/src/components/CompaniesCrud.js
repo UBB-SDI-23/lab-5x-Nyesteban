@@ -111,7 +111,7 @@ function CompaniesCrud() {
 
     async function Load() {
 
-        const result = await axios.get("https://nyesteban.twilightparadox.com/api/Companies/paginated/" + skip + "/" + take);
+        const result = await axios.get("/api/Companies/paginated/" + skip + "/" + take);
         setCompanies(result.data);
         console.log(result.data);
         const resultCount = await axios.get("https://nyesteban.twilightparadox.com/api/Companies");
@@ -389,7 +389,7 @@ function CompaniesCrud() {
                             Company Name
                         </button>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="d-none d-sm-table-cell">
                             <button
                                 type="button"
                                 onClick={() => requestSort('companyDescription')}
@@ -398,7 +398,7 @@ function CompaniesCrud() {
                                 Company Description
                             </button>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="d-none d-sm-table-cell">
                             <button
                                 type="button"
                                 onClick={() => requestSort('companyRevenue')}
@@ -407,7 +407,7 @@ function CompaniesCrud() {
                                 Company Revenue
                             </button>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="d-none d-sm-table-cell">
                             <button
                                 type="button"
                                 onClick={() => requestSort('companyEstablishmentYear')}
@@ -540,9 +540,9 @@ function CompaniesCrud() {
                 <thead>
                     <tr>
                         <th scope="col">Company Name</th>
-                        <th scope="col">Company Description</th>
-                        <th scope="col">Company Revenue</th>
-                        <th scope="col">Company Establishment Year</th>
+                        <th scope="col" class="d-none d-sm-table-cell">Company Description</th>
+                        <th scope="col" class="d-none d-sm-table-cell">Company Revenue</th>
+                        <th scope="col" class="d-none d-sm-table-cell">Company Establishment Year</th>
                         <th scope="col">Company Rating</th>
                         <th scope="col">Average Game Rating</th>
                     </tr>
@@ -588,9 +588,9 @@ function CompaniesCrud() {
                 <thead>
                     <tr>
                         <th scope="col">Company Name</th>
-                        <th scope="col">Company Description</th>
-                        <th scope="col">Company Revenue</th>
-                        <th scope="col">Company Establishment Year</th>
+                        <th scope="col" class="d-none d-sm-table-cell">Company Description</th>
+                        <th scope="col" class="d-none d-sm-table-cell">Company Revenue</th>
+                        <th scope="col" class="d-none d-sm-table-cell">Company Establishment Year</th>
                         <th scope="col">Company Rating</th>
                         <th scope="col">Company App Count</th>
                     </tr>
