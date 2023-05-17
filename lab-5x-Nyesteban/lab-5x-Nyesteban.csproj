@@ -13,6 +13,8 @@
     <RootNamespace>lab_5x_Nyesteban</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>6bc54e90-8f0a-435b-a7f3-62a85265abfa</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,6 +40,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.30.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
     <PackageReference Include="Npgsql" Version="8.0.0-preview.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-preview.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />

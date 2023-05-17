@@ -1,0 +1,46 @@
+version: "3.4"
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  lab-5x-nyesteban:
+    image: ${DOCKER_REGISTRY-}lab5xnyesteban
+    depends_on:
+      "app-db":
+        condition: service_healthy
+    container_name: lab-5x-nyesteban-service
+    ports:
+      - "8088:80"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=User ID =postgres;Password=George;Server=app-db;Port=5432;Database=shop; Integrated Security=true;Pooling=true;
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - dev
+
+  app-db:
+    image: postgres:latest
+    container_name: app-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=George
+      - POSTGRES_DB=shop
+    ports:
+      - "8001:5432"
+    restart: always
+    networks:
+      - dev
+    volumes:
+      - app_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  app_data:
