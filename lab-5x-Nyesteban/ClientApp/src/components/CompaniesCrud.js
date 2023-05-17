@@ -443,10 +443,10 @@ function CompaniesCrud() {
                             <tr>
                                 <th scope="row">{company.id} </th>
                                 <td>{company.companyName}</td>
-                                <td>{company.companyDescription}</td>
-                                <td>{company.companyRevenue}</td>
-                                <td>{company.companyEstablishmentYear}</td>
-                                <td>{company.companyRating}</td>
+                                <td class="d-none d-sm-table-cell">{company.companyDescription}</td>
+                                <td class="d-none d-sm-table-cell">{company.companyRevenue}</td>
+                                <td class="d-none d-sm-table-cell">{company.companyEstablishmentYear}</td>
+                                <td class="d-none d-sm-table-cell">{company.companyRating}</td>
                                 <td>{company.games.length}</td>
                                 <td><Link to="/profile" state={{ info: company.user.id }} className="btn btn-primary">{company.user.username}</Link></td>
 
@@ -552,9 +552,9 @@ function CompaniesCrud() {
                         <tbody>
                             <tr>
                                 <th scope="row">{company.companyName}</th>
-                                <td>{company.companyDescription}</td>
-                                <td>{company.companyRevenue}</td>
-                                <td>{company.companyEstablishmentYear}</td>
+                                <td class="d-none d-sm-table-cell">{company.companyDescription}</td>
+                                <td class="d-none d-sm-table-cell">{company.companyRevenue}</td>
+                                <td class="d-none d-sm-table-cell">{company.companyEstablishmentYear}</td>
                                 <td>{company.companyRating}</td>
                                 <td>{company.averageGameRating}</td>
                             </tr>
@@ -600,9 +600,9 @@ function CompaniesCrud() {
                         <tbody>
                             <tr>
                                 <th scope="row">{company.companyName}</th>
-                                <td>{company.companyDescription}</td>
-                                <td>{company.companyRevenue}</td>
-                                <td>{company.companyEstablishmentYear}</td>
+                                <td class="d-none d-sm-table-cell">{company.companyDescription}</td>
+                                <td class="d-none d-sm-table-cell">{company.companyRevenue}</td>
+                                <td class="d-none d-sm-table-cell">{company.companyEstablishmentYear}</td>
                                 <td>{company.companyRating}</td>
                                 <td>{company.companyAppCount}</td>
                             </tr>

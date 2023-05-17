@@ -424,11 +424,11 @@ function AppsCrud() {
                             <tr>
                                 <th scope="row">{app.id} </th>
                                 <td>{app.appName}</td>
-                                <td>{app.appDescription}</td>
-                                <td>{app.appVersion}</td>
-                                <td>{app.appSize}</td>
-                                <td>{app.appPrice}</td>
-                                <td>{app.appRating}</td>
+                                <td class="d-none d-sm-table-cell">{app.appDescription}</td>
+                                <td class="d-none d-sm-table-cell">{app.appVersion}</td>
+                                <td class="d-none d-sm-table-cell">{app.appSize}</td>
+                                <td class="d-none d-sm-table-cell">{app.appPrice}</td>
+                                <td class="d-none d-sm-table-cell">{app.appRating}</td>
                                 <td>{app.developmentDetails.length}</td>
                                 <td><Link to="/profile" state={{ info: app.user.id }} className="btn btn-primary">{app.user.username}</Link></td>
 
@@ -515,9 +515,9 @@ function AppsCrud() {
                         <tbody>
                             <tr>
                                 <th scope="row">{app.appName}</th>
-                                <td>{app.appDescription}</td>
-                                <td>{app.appVersion}</td>
-                                <td>{app.appSize}</td>
+                                <td class="d-none d-sm-table-cell">{app.appDescription}</td>
+                                <td class="d-none d-sm-table-cell">{app.appVersion}</td>
+                                <td class="d-none d-sm-table-cell">{app.appSize}</td>
                                 <td>{app.appPrice}</td>
                                 <td>{app.appRating}</td>
                             </tr>
