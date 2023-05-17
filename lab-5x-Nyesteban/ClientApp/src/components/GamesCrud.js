@@ -380,9 +380,9 @@ function GamesCrud() {
                             <tr>
                                 <th scope="row">{game.id} </th>
                                 <td>{game.gameName}</td>
-                                <td>{game.gameDescription}</td>
-                                <td>{game.gameLength}</td>
-                                <td>{game.gameSize}</td>
+                                <td class="d-none d-sm-table-cell">{game.gameDescription}</td>
+                                <td class="d-none d-sm-table-cell">{game.gameLength}</td>
+                                <td class="d-none d-sm-table-cell">{game.gameSize}</td>
                                 <td>{game.gameRating}</td>
                                 <td><Link to="/profile"  state={{info: game.user.id}} className="btn btn-primary">{game.user.username}</Link></td>
 
